@@ -5,6 +5,7 @@
 #include <memory>
 #include "i_memory_unit.hpp"
 #include "cartridge.hpp"
+#include "cstring"
 
 /* CPU Memory Map
 --------------------------------------- $10000
