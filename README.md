@@ -1,6 +1,9 @@
 # NESemu
  NES emulator project
 
+Style Guide
+https://google.github.io/styleguide/cppguide.html
+
 Main info sources:
 
 NESdev wiki
