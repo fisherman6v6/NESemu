@@ -3,7 +3,7 @@
 
 Cpu::Cpu()
 {
-	file.open("instr.txt", std::ofstream::out);
+	file.open("log/instr.txt", std::ofstream::out);
 
 	registers_ = std::make_unique<Registers>();
 	mmu_ = std::make_unique<Mmu>();
@@ -2127,6 +2127,8 @@ inline bool Cpu::AbsoluteX(uint16_t& addr, int8_t& pc_inc)
 inline bool Cpu::AbsoluteY(uint16_t& addr, int8_t& pc_inc)
 {
 	addr = mmu_->ReadWord(registers_->pc_ + 1) + (uint16_t)registers_->y_;
+
+	pc_inc = 3;
 
 	return CheckPageCrossed(addr, registers_->y_);
 }

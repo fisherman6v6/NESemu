@@ -27,12 +27,12 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 	}
 	
 
-	for (auto i = 0; i < PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_; i++) {
+	for (int i = 0; i < PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_; i++) {
 		// read PROG ROM
 		rom.get(reinterpret_cast<char*>(prg_rom_)[i]);
 	}
 
-	for (auto i = 0; i < CHR_ROM_BLOCK_SIZE; i++) {
+	for (int i = 0; i < CHR_ROM_BLOCK_SIZE; i++) {
 		// read CHR ROM
 		rom.get(reinterpret_cast<char*>(chr_rom_)[i]);
 	}
