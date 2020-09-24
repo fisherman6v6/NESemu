@@ -1,6 +1,8 @@
 # NESemu
  NES emulator project
 
+ To run nestest in debug mode bin/main.out -d test/nestest.nes
+
 Style Guide
 https://google.github.io/styleguide/cppguide.html
 

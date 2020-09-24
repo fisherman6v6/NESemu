@@ -32,5 +32,6 @@
 *.app
 
 #
-*.txt
+diffs.txt
+my_log.txt
 bin/main

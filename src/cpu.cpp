@@ -1710,6 +1710,7 @@ uint8_t Cpu::JMP(uint8_t opcode)
 	switch (opcode)
 	{
 	case 0x4c: 
+	// absolute
 		absolute_addr = mmu_->ReadWord(registers_->pc_ + 1);
 
 		registers_->pc_ = absolute_addr;
@@ -1717,6 +1718,7 @@ uint8_t Cpu::JMP(uint8_t opcode)
 		return 3;
 
 	case 0x6c: {
+		// indirect
 		indirect_addr = mmu_->ReadWord(registers_->pc_ + 1);
 		absolute_addr = mmu_->ReadWord(indirect_addr);
 
