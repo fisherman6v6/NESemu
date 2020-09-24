@@ -1,9 +1,11 @@
 #include "cpu.hpp"
 
+#define LOGFILE "log/my_log.txt"
+
 
 Cpu::Cpu()
 {
-	file.open("log/instr.txt", std::ofstream::out);
+	file.open(LOGFILE, std::ofstream::out);
 
 	registers_ = std::make_unique<Registers>();
 	mmu_ = std::make_unique<Mmu>();
