@@ -21,4 +21,4 @@ Nestest info
 https://www.qmtpro.com/~nes/misc/nestest.txt
 
 Nestest log
-https://www.qmtpro.com/~nes/misc/nestest.txt
+https://www.qmtpro.com/~nes/misc/nestest.log
