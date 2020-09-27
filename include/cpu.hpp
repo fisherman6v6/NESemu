@@ -32,7 +32,7 @@ private:
 					/* ISA */
 	typedef uint8_t(Cpu::*Instruction)(uint8_t opcode);
 
-	Instruction instructions_[ISA_SIZE];
+	Instruction instructions_[ISA_SIZE]{};
 	// Load-Store operations
 
 	uint8_t LDA(uint8_t opcode);	// Load Accumulator

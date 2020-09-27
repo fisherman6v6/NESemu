@@ -37,6 +37,11 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 		rom.get(reinterpret_cast<char*>(chr_rom_)[i]);
 	}
 
+	/*uint8_t test_prg[2*PRG_ROM_BLOCK_SIZE];
+	uint8_t test_chr[CHR_ROM_BLOCK_SIZE];
+
+	memcpy(test_prg, prg_rom_, 2*PRG_ROM_BLOCK_SIZE);
+	memcpy(test_chr, chr_rom_, CHR_ROM_BLOCK_SIZE);*/
 	// reading PRG ROM
 	//rom.seekg(addr, rom.beg);
 
@@ -60,20 +65,20 @@ Mapper_000::~Mapper_000()
 
 uint8_t Mapper_000::ReadByte(uint16_t address) const
 {
-	if (address >= PRG_ROM_BASE_ADDR_1 && address <= PRG_ROM_END_ADDR_1) {
-		return prg_rom_[address - PRG_ROM_BASE_ADDR_1];
+	if (address >= PRG_ROM_BASE_ADDR_0 && address <= PRG_ROM_END_ADDR_0) {
+		return prg_rom_[address - PRG_ROM_BASE_ADDR_0];
 	}
-	else if (address >= PRG_ROM_BASE_ADDR_2 && address <= PRG_ROM_END_ADDR_2) {
+	else if (address >= PRG_ROM_BASE_ADDR_1 && address <= PRG_ROM_END_ADDR_1) {
 		if (nrom_type) {
 			//NROM256
-			return prg_rom_[address + PRG_ROM_BASE_ADDR_1 - PRG_ROM_BASE_ADDR_2];
+			return prg_rom_[address + PRG_ROM_BASE_ADDR_0 - PRG_ROM_BASE_ADDR_1];
 		}
 		else {
-			return prg_rom_[address - PRG_ROM_BASE_ADDR_2];
+            //NROM128 -> Mirroring of 0x8000 - 0xbfff
+			return prg_rom_[address - PRG_ROM_BASE_ADDR_1];
 		}
 	}
-
-	// CHR ROM READING MISSING
+	// CHR ROM reading is missing. This rom is read by the PPU. Cpu cannot access it
 
 	std::cout << "Wrong Address " << address << std::endl;
 	exit(EXIT_FAILURE);

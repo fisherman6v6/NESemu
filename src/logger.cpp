@@ -23,15 +23,20 @@ void Logger::LogCpuRegisters(const std::unique_ptr<Registers>& registers)
 
 }
 
-void Logger::LogMemory(const std::unique_ptr<Mmu>& memory, uint16_t start, uint16_t size, const char* tag)
+void Logger::LogMemory(const std::unique_ptr<Mmu>& memory, size_t start, size_t size, const char* tag)
 {
 	if (!is_enabled_) {
 		return;
 	}
 
 	printf("\n- - - - - - - - - - - - - - - - - - - - - - - - - -\n");
-
-	uint16_t end = start + size;
+    uint16_t end = 0;
+	if ((start + size) > 0xffff) {
+	    end = 0xffff;
+	}
+	else {
+	    end = start + size;
+	}
 	if (tag != nullptr) {
 		std::cout << tag << std::endl;
 	}

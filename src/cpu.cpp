@@ -3,15 +3,15 @@
 #define LOGFILE "log/my_log.txt"
 
 
-Cpu::Cpu()
+Cpu::Cpu() : clock_cycles_(0)
 {
 	file.open(LOGFILE, std::ofstream::out);
 
 	registers_ = std::make_unique<Registers>();
 	mmu_ = std::make_unique<Mmu>();
 
-	for (auto i = 0; i < ISA_SIZE; i++) {
-		instructions_[i] = nullptr;
+	for (auto & instruction : instructions_) {
+		instruction = nullptr;
 	}
 
 	instructions_[0x00] = &Cpu::BRK;
