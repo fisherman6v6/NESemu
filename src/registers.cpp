@@ -1,6 +1,6 @@
 #include "registers.hpp"
 
-#define STARTING_ADDR 0xFFFC
+#define STARTING_ADDR 0xC000
 
 Registers::Registers() :	
 	a_(0x00), 

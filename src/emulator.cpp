@@ -109,11 +109,6 @@ void Emulator::Debug()
 		}
 
 	}
-
-	
-
-
-	
 }
 
 void Emulator::NoDebug()
