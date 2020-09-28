@@ -2111,8 +2111,8 @@ inline bool Cpu::Absolute(uint16_t& addr, int8_t& pc_inc)
 
 inline bool Cpu::IndexedIndirect(uint16_t& addr, int8_t& pc_inc)
 {
-	uint8_t zero_page_addr = mmu_->ReadByte(registers_->pc_ + 1) + registers_->x_; // Wraps around if > 255
-	addr = mmu_->ReadWord(zero_page_addr);
+	uint8_t indirect_addr = mmu_->ReadByte(registers_->pc_ + 1) + registers_->x_; // Wraps around if > 255
+	addr = mmu_->ReadWord(indirect_addr);
 
 	pc_inc = 2;
 
