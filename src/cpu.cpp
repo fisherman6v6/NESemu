@@ -80,6 +80,7 @@ Cpu::Cpu() : clock_cycles_(0)
 	instructions_[0x6e] = &Cpu::ROR;
 	instructions_[0x70] = &Cpu::BVS;
 	instructions_[0x71] = &Cpu::ADC;
+	instructions_[0x75] = &Cpu::ADC;
 	instructions_[0x76] = &Cpu::ROR;
 	instructions_[0x78] = &Cpu::SEI;
 	instructions_[0x79] = &Cpu::ADC;
@@ -1719,8 +1720,38 @@ uint8_t Cpu::JMP(uint8_t opcode)
 
 	case 0x6c: {
 		// indirect
-		indirect_addr = mmu_->ReadWord(registers_->pc_ + 1);
-		absolute_addr = mmu_->ReadWord(indirect_addr);
+		/*
+		Here there is an Hardware bug in the 6502
+		On the page barrier (xxFF) the least significant byte is ignored.
+		So the address of the jump wraps araound
+
+		AN INDIRECT JUMP MUST NEVER USE A
+		VECTOR BEGINNING ON THE LAST BYTE
+		OF A PAGE
+
+		For example if address $3000 contains $40, $30FF contains $80,
+		and $3100 contains $50, the result of JMP ($30FF) will be a 
+		transfer of control to $4080 rather than $5080 as you intended 
+		i.e. the 6502 took the low byte of the address from $30FF and 
+		the high byte from $3000. 
+		*/
+		uint16_t indirect_addr_lo = mmu_->ReadByte(registers_->pc_ + 1);
+		uint16_t indirect_addr_hi = mmu_->ReadByte(registers_->pc_ + 2);
+
+		indirect_addr = (indirect_addr_hi << 8) | indirect_addr_lo;
+
+		uint16_t absolute_addr_lo = mmu_->ReadByte(indirect_addr);
+
+		/*
+		Recompute another indirect address after possible wrapping
+		*/
+
+		indirect_addr_lo = 0xff & (indirect_addr_lo + 1);
+		indirect_addr = (indirect_addr_hi << 8) | indirect_addr_lo;
+		
+		uint16_t absolute_addr_hi = mmu_->ReadByte(indirect_addr);
+
+		absolute_addr = (absolute_addr_hi << 8) | absolute_addr_lo;
 
 		registers_->pc_ = absolute_addr;
 		
@@ -2145,7 +2176,6 @@ inline bool Cpu::IndirectIndexed(uint16_t& addr, int8_t& pc_inc)
 	uint8_t operand = mmu_->ReadByte(registers_->pc_ + 1);
 	uint16_t addr_lo = (uint16_t)mmu_->ReadByte(operand);
 	uint16_t addr_hi = (uint16_t)mmu_->ReadByte(0xff & (operand + 1));
-	//addr = mmu_->ReadWord(zero_page_addr) + (uint16_t)registers_->y_;
 	addr = ((addr_hi << 8) | addr_lo) + (uint16_t)registers_->y_;
 	pc_inc = 2;
 
