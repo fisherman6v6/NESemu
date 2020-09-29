@@ -2111,8 +2111,11 @@ inline bool Cpu::Absolute(uint16_t& addr, int8_t& pc_inc)
 
 inline bool Cpu::IndexedIndirect(uint16_t& addr, int8_t& pc_inc)
 {
-	uint8_t indirect_addr = mmu_->ReadByte(registers_->pc_ + 1) + registers_->x_; // Wraps around if > 255
-	addr = mmu_->ReadWord(indirect_addr);
+	uint8_t operand = mmu_->ReadByte(registers_->pc_ + 1);
+	uint16_t addr_lo = (uint16_t)mmu_->ReadByte(0xff & (registers_->x_ + operand)); 
+	/* 0xff & is used to force the wrapping. Otherwise the funct param is read as a uint16_t and not wraps*/
+	uint16_t addr_hi = (uint16_t)mmu_->ReadByte(0xff & (registers_->x_ + operand + 1)); 
+	addr = (addr_hi << 8) | addr_lo;
 
 	pc_inc = 2;
 
@@ -2139,9 +2142,11 @@ inline bool Cpu::AbsoluteY(uint16_t& addr, int8_t& pc_inc)
 
 inline bool Cpu::IndirectIndexed(uint16_t& addr, int8_t& pc_inc)
 {
-	uint8_t zero_page_addr = mmu_->ReadByte(registers_->pc_ + 1);
-	addr = mmu_->ReadWord(zero_page_addr) + (uint16_t)registers_->y_;
-
+	uint8_t operand = mmu_->ReadByte(registers_->pc_ + 1);
+	uint16_t addr_lo = (uint16_t)mmu_->ReadByte(operand);
+	uint16_t addr_hi = (uint16_t)mmu_->ReadByte(0xff & (operand + 1));
+	//addr = mmu_->ReadWord(zero_page_addr) + (uint16_t)registers_->y_;
+	addr = ((addr_hi << 8) | addr_lo) + (uint16_t)registers_->y_;
 	pc_inc = 2;
 
 	return CheckPageCrossed(addr, registers_->y_);
