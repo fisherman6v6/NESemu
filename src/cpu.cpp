@@ -1,11 +1,8 @@
 #include "cpu.hpp"
 
-#define LOGFILE "log/my_log.txt"
-
-
 Cpu::Cpu() : clock_cycles_(0)
 {
-	file.open(LOGFILE, std::ofstream::out);
+	
 
 	registers_ = std::make_unique<Registers>();
 	mmu_ = std::make_unique<Mmu>();
@@ -181,13 +178,7 @@ uint64_t Cpu::Step()
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	file << "    " << std::uppercase << std::hex << (unsigned)registers_->pc_ << "    " 
-		<< std::hex << (unsigned)mmu_->ReadByte(registers_->pc_) << "    "
-		" A:" << std::hex << (unsigned)registers_->a_ << 
-		" X:" << std::hex << (unsigned)registers_->x_ << 
-		" Y:" << std::hex << (unsigned)registers_->y_ << 
-		" P:" << std::hex << (unsigned)registers_->p_ << 
-		" S:" << std::hex << (unsigned)registers_->s_ << std::endl;
+	Logger::LogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);
@@ -197,8 +188,6 @@ uint64_t Cpu::Step()
 		std::cout << "Unknown OPcode: " << std::hex << (unsigned)opcode << " at PC = " << (unsigned)registers_->pc_ << std::endl;
 		exit(EXIT_FAILURE);
 	}
-	//Logger::LogCpuRegisters(registers_);
-	//Logger::LogMemory(mmu_, 0x0200, 0x2ff, "mem");
 	
 	return op_cycles;
 }

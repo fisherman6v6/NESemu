@@ -49,65 +49,72 @@ void Emulator::Debug()
 			std::istringstream stream(line);
 			stream.unsetf(std::ios::dec);
 			char c;
-			stream >> c;
+			std::string cmd;
+			stream >> cmd;
 
-			switch (c)
-			{
-			case 's':
-				// step
+			if (cmd == "step" || cmd == "s") {
+				// execute one cpu step
 				Step();
-				break;
-			case 'b': {
+			}
+			else if (cmd == "breakpoint" || cmd == "b") {
+				// set breakpoint
 				unsigned bline;
 				if (stream >> bline) {
 					breakpoint_list.push_back(bline);
 					printf("Breakpoint set at 0x%04x\n", bline);
 				}
-				break;
 			}
-			case 'p': {
+			else if (cmd == "print" || cmd == "p") {
 				// print
 				std::string to_print;
 				if (stream >> to_print) {
 					if (to_print == "regs") {
+						// print cpu registers
 						Logger::LogCpuRegisters(cpu_->registers_);
 					}
 					else if (to_print == "mem") {
+						// print memory 
 						unsigned start, size;
-						if (stream >> start >> size) {
-							Logger::LogMemory(cpu_->mmu_, start, size);
+						if (stream >> start) {
+							if (stream >> size) {
+								Logger::LogMemory(cpu_->mmu_, start, size);
+							}
+							else {
+								Logger::LogMemory(cpu_->mmu_, start, 1);
+							}
 						}
 					}
+					else if (to_print == "b") {
+						// print breakpoint list
+						//for (auto i = breakpoint_list.begin(); i != breakpoint_list.end())
+					}
 				}
-				break;
 			}
-			case 'c': {
-				// continue
+			else if (cmd == "continue" || cmd == "c") {
+				// continue execution until breakpoint is hit or end is reached
 				unsigned pc = cpu_->registers_->getPC();
 				do {
 					Step();
 					pc = cpu_->registers_->getPC();
 				} while (std::find(breakpoint_list.begin(), breakpoint_list.end(), pc) == breakpoint_list.end());
 				printf("Breakpoint found at 0x%04x\n", (unsigned)cpu_->registers_->getPC());
-				break;
 			}
-			case 'h':
-				// help
+			else if (cmd == "help" || cmd == "h") {
+				// print help
 				Logger::DebugHelp();
-				break;
-			case 'r':
-				// restart
+			}
+			else if (cmd == "restart" || cmd == "r") {
+				// run or restart execution
 				cpu_->Reset();
-				break;
-			case 'q':
+			}
+			else if (cmd == "quit" || cmd == "q") {
+				// quit debugger
 				is_running_ = false;
-				break;
-
-			default:
-				break;
+			}
+			else {
+				continue;
 			}
 		}
-
 	}
 }
 

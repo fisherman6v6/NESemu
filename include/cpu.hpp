@@ -24,7 +24,6 @@ public:
 private:
 
 	friend class Emulator;
-	std::ofstream file;
 	std::unique_ptr<Mmu> mmu_;
 	std::unique_ptr<Registers> registers_;
 	uint64_t clock_cycles_;

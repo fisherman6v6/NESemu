@@ -8,16 +8,31 @@ LIB		:= lib
 
 LIBRARIES	:= -lsfml-graphics -lsfml-window -lsfml-system
 EXECUTABLE	:= main.out
+OBJ := obj
 
+SOURCES  := $(wildcard src/*.cpp)
+_OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
+OBJECTS := $(subst ..src/,,$(_OBJECTS))
+HEADERS := $(wildcard $(INCLUDE)/*.h)
+TARGET := $(BIN)/$(EXECUTABLE)
 
-all: $(BIN)/$(EXECUTABLE)
+all: $(TARGET)
 
 run: clean all
 	clear
-	./$(BIN)/$(EXECUTABLE)
+	./$(TARGET)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.cpp
-	$(CXX) $(CXX_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
+%.o: %.cpp $(HEADERS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS) -I$(INCLUDE)
+    
+$(TARGET): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(LIBRARIES) $(OBJECTS) -o $@
+
+.PHONY: clean
+
+default: $(TARGET)
 
 clean:
-	-rm $(BIN)/*
+	-rm $(BIN)/*;	\
+	rm $(OBJ)/*;	\
+	rm $(SRC)/*.o
