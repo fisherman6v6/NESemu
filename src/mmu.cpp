@@ -39,8 +39,9 @@ bool Mmu::WriteByte(uint16_t address, uint8_t value)
 uint16_t Mmu::ReadWord(uint16_t address) const
 {
 	// Little endian
-	uint16_t word = 0x0000 | (uint16_t)ReadByte(address);
-	word = word | (uint16_t)ReadByte(address + 1) << 8;
+	uint16_t word_lo = (uint16_t)ReadByte(address);
+	uint16_t word_hi = (uint16_t)ReadByte(address + 1);
+	uint16_t word = (word_hi << 8 ) | word_lo;
 	return word;
 }
 
