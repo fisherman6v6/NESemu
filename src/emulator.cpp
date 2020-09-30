@@ -87,8 +87,13 @@ void Emulator::Debug()
 					else if (to_print == "b") {
 						// print breakpoint list
 						size_t cnt = 0;
-						for (std::list<unsigned>::iterator it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
-							std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
+						if (breakpoint_list.empty()) {
+							std::cout << "No brekpoint set"<< std::endl;
+						}
+						else {
+							for (std::list<unsigned>::iterator it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
+								std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
+							}
 						}
 					}
 				}

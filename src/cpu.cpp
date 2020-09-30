@@ -303,7 +303,7 @@ uint8_t Cpu::LDX(uint8_t opcode)
 		break;
 	case 0xb6:
 		// Zero page,X
-		ZeroPageX(addr, pc_inc);
+		ZeroPageY(addr, pc_inc);
 		cycles = 4;
 		break;
 	case 0xae:
@@ -313,7 +313,7 @@ uint8_t Cpu::LDX(uint8_t opcode)
 		break;
 	case 0xbe:
 		// Absolute,X
-		is_crossed = AbsoluteX(addr, pc_inc);
+		is_crossed = AbsoluteY(addr, pc_inc);
 		cycles = 4;
 		if (is_crossed) {
 			cycles++;

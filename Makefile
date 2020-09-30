@@ -1,5 +1,5 @@
 CXX		  := g++
-CXX_FLAGS := -Wall -Wextra -std=c++17 -ggdb -g3
+CXXFLAGS := -Wall -Wextra -std=c++17 -ggdb3 -g3
 
 BIN		:= bin
 SRC		:= src
@@ -23,7 +23,7 @@ run: clean all
 	./$(TARGET)
 
 %.o: %.cpp $(HEADERS)
-	$(CXX) -c -o $@ $< $(CXXFLAGS) -I$(INCLUDE)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<  -I$(INCLUDE)
     
 $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(LIBRARIES) $(OBJECTS) -o $@

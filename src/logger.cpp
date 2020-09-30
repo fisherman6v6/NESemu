@@ -51,13 +51,13 @@ void Logger::LogOp(const std::unique_ptr<Registers>& registers, const std::uniqu
 		return;
 	}
 
-	log_file << std::hex << std::setfill('0') << std::setw(2) << std::uppercase << std::hex << (unsigned)registers->getPC() << "    " 
+	log_file << std::setfill('0') << std::setw(4) << std::uppercase << std::hex << (unsigned)registers->getPC() << "    " 
 		<< std::setfill('0') << std::setw(2) << (unsigned)mmu->ReadByte(registers->getPC()) << "    "
-		" A:" << std::setfill('0') << std::setw(2) <<std::hex << (unsigned)registers->getA() << 
-		" X:" << std::setfill('0') << std::setw(2) <<std::hex << (unsigned)registers->getX() << 
-		" Y:" << std::setfill('0') << std::setw(2) <<std::hex << (unsigned)registers->getY() << 
-		" P:" << std::setfill('0') << std::setw(2) <<std::hex << (unsigned)registers->getP() << 
-		" S:" << std::setfill('0') << std::setw(2) <<std::hex << (unsigned)registers->getS() <<
+		" A:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getA() << 
+		" X:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getX() << 
+		" Y:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getY() << 
+		" P:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getP() << 
+		" S:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getS() <<
 		" CYC:" << std::dec << (unsigned long int)cyc << std::endl;
 }
 
