@@ -59,8 +59,6 @@ public:
 	void SetIrd() { SetBit(p_, IRQ); };
 	void SetZer() { SetBit(p_, ZER); };
 	void SetCar() { SetBit(p_, CAR); };
-
-	void Reset();
 };
 
 

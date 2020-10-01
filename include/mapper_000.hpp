@@ -3,6 +3,8 @@
 #include <fstream>
 #include <memory>
 #include <iostream>
+#include <cstring>
+#include <fstream>
 
 /*All Banks are fixed,
 

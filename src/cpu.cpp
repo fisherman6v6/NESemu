@@ -192,7 +192,7 @@ uint64_t Cpu::Step()
 	return op_cycles;
 }
 
-void Cpu::Init(const std::string & rompath)
+void Cpu::LoadRom(const std::string & rompath)
 {
 	if (mmu_->LoadRom(rompath)) {
 		exit(EXIT_FAILURE);
@@ -201,8 +201,25 @@ void Cpu::Init(const std::string & rompath)
 
 void Cpu::Reset()
 {
-	// Reset Cpu registers
-	registers_->Reset();
+	// Reset Interrupt procedure. Called on Power Up or reset button pressed 
+
+	/*RESET is how code even begin executing on the 6502 when powered on or reset. 
+	The CPU reads the 2 bytes at $FFFC-FFFD (RESET vector), in the usual little endian format, 
+	sets the PC to the values in those bytes, then begins executing code from there. 
+	If this makes it easier: you can think of the RESET vector as the 
+	CPU essentially doing jmp ($fffc) when it powers on or is reset*/
+	//registers_->Reset();
+
+	registers_->a_ = 0x00;
+	registers_->x_ = 0x00;
+	registers_->y_ = 0x00;
+	registers_->p_ = 0x24;
+	/*stack pointer is decremented by 3 without writing anything on the stack*/
+	registers_->s_ = 0xfd;
+	registers_->pc_= mmu_->ReadWord(0xfffc);
+
+	clock_cycles_ += 7;
+
 }
 
 uint8_t Cpu::LDA(uint8_t opcode)

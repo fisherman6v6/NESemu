@@ -8,10 +8,11 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 		exit(EXIT_FAILURE);
 	}
 
-	ines_flags.chr_rom_num_ == 1 ? nrom_type = 0 : nrom_type = 1;
-
 	// ines_flags.prg_rom_num_ == 1 -> NROM128
 	// ines_flags.prg_rom_num_ == 2 -> NROM256
+
+	ines_flags.prg_rom_num_ == 1 ? nrom_type = 0 : nrom_type = 1;
+
 	//prg_rom_ = std::make_unique<uint8_t[]>(PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_);
 	prg_rom_ = new uint8_t[PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_];
 	chr_rom_ = new uint8_t[CHR_ROM_BLOCK_SIZE];
@@ -26,7 +27,6 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 		}
 	}
 	
-
 	for (int i = 0; i < PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_; i++) {
 		// read PROG ROM
 		rom.get(reinterpret_cast<char*>(prg_rom_)[i]);
@@ -38,12 +38,17 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 	}
 
 	/*uint8_t test_prg[2*PRG_ROM_BLOCK_SIZE];
-	uint8_t test_chr[CHR_ROM_BLOCK_SIZE];
+	//uint8_t test_chr[CHR_ROM_BLOCK_SIZE];
 
-	memcpy(test_prg, prg_rom_, 2*PRG_ROM_BLOCK_SIZE);
-	memcpy(test_chr, chr_rom_, CHR_ROM_BLOCK_SIZE);*/
-	// reading PRG ROM
-	//rom.seekg(addr, rom.beg);
+	memcpy(test_prg, prg_rom_, PRG_ROM_BLOCK_SIZE);
+	//memcpy(test_chr, chr_rom_, CHR_ROM_BLOCK_SIZE);
+
+	std::ofstream file;
+	file.open("prg.txt", std::ostream::out);
+
+	for (auto i = 0; i < 2*PRG_ROM_BLOCK_SIZE; i++) {
+		file << std::hex << (unsigned)test_prg[i] << "\n";
+	}*/
 
 	//rom.read(reinterpret_cast<char*>(prg_rom_.get()), PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_);
 	//rom.read(reinterpret_cast<char*>(prg_rom_), PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_);
@@ -71,7 +76,7 @@ uint8_t Mapper_000::ReadByte(uint16_t address) const
 	else if (address >= PRG_ROM_BASE_ADDR_1 && address <= PRG_ROM_END_ADDR_1) {
 		if (nrom_type) {
 			//NROM256
-			return prg_rom_[address + PRG_ROM_BASE_ADDR_0 - PRG_ROM_BASE_ADDR_1];
+			return prg_rom_[address - PRG_ROM_BASE_ADDR_0];
 		}
 		else {
             //NROM128 -> Mirroring of 0x8000 - 0xbfff

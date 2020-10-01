@@ -18,7 +18,7 @@ public:
 	
 	uint64_t Step();
 
-	void Init(const std::string& rompath);
+	void LoadRom(const std::string& rompath);
 	void Reset();
 
 private:

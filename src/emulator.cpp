@@ -10,7 +10,8 @@ Emulator::Emulator(bool mode, const std::string& path)
 	cpu_ = std::make_unique<Cpu>();
 	mode ? RunCallback = &Emulator::Debug : RunCallback = &Emulator::NoDebug;
 	is_running_ = false;
-	cpu_->Init(path);
+	cpu_->LoadRom(path);
+	cpu_->Reset();
 }
 
 Emulator::~Emulator()
@@ -112,7 +113,7 @@ void Emulator::Debug()
 			}
 			else if (cmd == "restart" || cmd == "r") {
 				// run or restart execution
-				cpu_->Reset();
+				//cpu_->Reset();
 			}
 			else if (cmd == "quit" || cmd == "q") {
 				// quit debugger
