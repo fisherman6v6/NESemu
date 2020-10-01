@@ -48,7 +48,6 @@ void Emulator::Debug()
 
 			std::istringstream stream(line);
 			stream.unsetf(std::ios::dec);
-			char c;
 			std::string cmd;
 			stream >> cmd;
 

@@ -69,11 +69,11 @@ void Logger::LogMemory(const std::unique_ptr<Mmu>& memory, size_t start, size_t 
 
 	printf("\n- - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     uint16_t end = 0;
-	if ((start + size) > 0xffff) {
+	if ((start + size - 1) > 0xffff) {
 	    end = 0xffff;
 	}
 	else {
-	    end = start + size;
+	    end = start + size - 1;
 	}
 	if (tag != nullptr) {
 		std::cout << tag << std::endl;
