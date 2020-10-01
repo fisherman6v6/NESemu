@@ -91,7 +91,7 @@ void Emulator::Debug()
 							std::cout << "No brekpoint set"<< std::endl;
 						}
 						else {
-							for (std::list<unsigned>::iterator it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
+							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
 								std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
 							}
 						}
