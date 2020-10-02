@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "cpu.hpp"
 #include "logger.hpp"
+#include "debug_logger.hpp"
 #include <memory>
 #include <string>
 #include <list>

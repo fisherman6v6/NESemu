@@ -180,7 +180,7 @@ uint64_t Cpu::Step()
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	Logger::LogOp(registers_, mmu_, clock_cycles_);
+	DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);

@@ -5,11 +5,11 @@
 #include <string>
 #include <iostream>
 #include "logger.hpp"
+#include "debug_logger.hpp"
 
 constexpr auto ISA_SIZE = 256;
 
 class Emulator;
-class Mmu;
 
 class Cpu
 {

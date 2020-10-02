@@ -71,17 +71,17 @@ void Emulator::Debug()
 				if (stream >> to_print) {
 					if (to_print == "regs") {
 						// print cpu registers
-						Logger::LogCpuRegisters(cpu_->registers_);
+						DebugLogger::LogCpuRegisters(cpu_->registers_);
 					}
 					else if (to_print == "mem") {
 						// print memory 
 						unsigned start, size;
 						if (stream >> start) {
 							if (stream >> size) {
-								Logger::LogMemory(cpu_->mmu_, start, size);
+								DebugLogger::LogMemory(cpu_->mmu_, start, size);
 							}
 							else {
-								Logger::LogMemory(cpu_->mmu_, start, 1);
+								DebugLogger::LogMemory(cpu_->mmu_, start, 1);
 							}
 						}
 					}
@@ -94,7 +94,7 @@ void Emulator::Debug()
 						else {
 							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
 								//std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
-								Logger::Log("b %d : 0x04%x", cnt, *it);
+								Logger::Log("b %d : 0x%04x", cnt, *it);
 							}
 						}
 					}
@@ -111,7 +111,7 @@ void Emulator::Debug()
 			}
 			else if (cmd == "help" || cmd == "h") {
 				// print help
-				Logger::DebugHelp();
+				DebugLogger::DebugHelp();
 			}
 			else if (cmd == "restart" || cmd == "r") {
 				// run or restart execution
@@ -119,10 +119,10 @@ void Emulator::Debug()
 			}
 			else if (cmd == "d" || cmd == "delete") {
 				// delete breakpoint
-				unsigned b_num;
+				/*unsigned b_num;
 				stream >> b_num;
 				unsigned pc = cpu_->registers_->getPC();
-				breakpoint_list.remove(pc);
+				breakpoint_list.remove(pc);*/
 			}
 			else if (cmd == "quit" || cmd == "q") {
 				// quit debugger

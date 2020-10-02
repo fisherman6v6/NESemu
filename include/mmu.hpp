@@ -63,8 +63,6 @@ constexpr auto IRQ_BASE = 0x0fffe;
 
 */
 
-class Cartridge;
-
 class Mmu : IMemoryUnit
 {
 public:
