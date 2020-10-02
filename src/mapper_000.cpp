@@ -86,12 +86,13 @@ uint8_t Mapper_000::ReadByte(uint16_t address) const
 	}
 	// CHR ROM reading is missing. This rom is read by the PPU. Cpu cannot access it
 
-	std::cout << "Wrong Address " << address << std::endl;
+	Logger::LogError("Wrong Address %u", address);
+
 	exit(EXIT_FAILURE);
 }
 
 bool Mapper_000::WriteByte(uint16_t address, uint8_t value)
 {
-	std::cout << "Can't write to ROM !" << std::endl;
+	Logger::LogError("Can't write to ROM !");
 	return true;
 }

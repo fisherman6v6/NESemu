@@ -3,7 +3,7 @@
 #include "pch.hpp"
 #include <string>
 #include <fstream>
-#include <iostream>
+#include "logger.hpp"
 #include <memory>
 #include <vector>
 #include "i_mapper.hpp"

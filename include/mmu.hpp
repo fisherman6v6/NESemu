@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include <iostream>
 #include <memory>
 #include "i_memory_unit.hpp"
+#include "logger.hpp"
 #include "cartridge.hpp"
 #include "cstring"
 
@@ -62,6 +62,8 @@ constexpr auto IRQ_BASE = 0x0fffe;
 	0xfffe - 0xffff : Interrupt request handler
 
 */
+
+class Cartridge;
 
 class Mmu : IMemoryUnit
 {

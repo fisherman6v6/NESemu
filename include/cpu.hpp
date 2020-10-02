@@ -9,6 +9,7 @@
 constexpr auto ISA_SIZE = 256;
 
 class Emulator;
+class Mmu;
 
 class Cpu
 {

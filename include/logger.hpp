@@ -6,10 +6,12 @@
 #include <iomanip>
 #include <stdarg.h>
 #include "cpu.hpp"
-#include "registers.hpp"
 #include "mmu.hpp"
+#include "registers.hpp"
 
 #define LOGFILE "log/my_log.txt"
+
+class Mmu;
 
 class Logger
 {

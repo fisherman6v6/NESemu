@@ -1,8 +1,8 @@
 #pragma once
 #include"i_mapper.hpp"
+#include "logger.hpp"
 #include <fstream>
 #include <memory>
-#include <iostream>
 #include <cstring>
 #include <fstream>
 

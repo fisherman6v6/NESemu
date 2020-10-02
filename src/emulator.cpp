@@ -35,13 +35,14 @@ void Emulator::Run()
 void Emulator::Debug()
 {
 	Logger::Enable();
+	Logger::Log("Starting emulator in Debug Mode");
 
 	std::list<unsigned> breakpoint_list;
 	std::string line;
 
 	while (is_running_) {
 
-		printf("Next instruction at PC = 0x%04x\n", (unsigned)cpu_->registers_->getPC());
+		Logger::Log("Next instruction at PC = 0x%04x", (unsigned)cpu_->registers_->getPC());
 
 		std::cout << "Debug >> ";
 
@@ -61,7 +62,7 @@ void Emulator::Debug()
 				unsigned bline;
 				if (stream >> bline) {
 					breakpoint_list.push_back(bline);
-					printf("Breakpoint set at 0x%04x\n", bline);
+					Logger::Log("Breakpoint set at 0x%04x", bline);
 				}
 			}
 			else if (cmd == "print" || cmd == "p") {
@@ -88,11 +89,12 @@ void Emulator::Debug()
 						// print breakpoint list
 						size_t cnt = 0;
 						if (breakpoint_list.empty()) {
-							std::cout << "No brekpoint set"<< std::endl;
+							Logger::Log("No brekpoint set");
 						}
 						else {
 							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
-								std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
+								//std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
+								Logger::Log("b %d : 0x04%x", cnt, *it);
 							}
 						}
 					}
@@ -105,7 +107,7 @@ void Emulator::Debug()
 					Step();
 					pc = cpu_->registers_->getPC();
 				} while (std::find(breakpoint_list.begin(), breakpoint_list.end(), pc) == breakpoint_list.end());
-				printf("Breakpoint found at 0x%04x\n", (unsigned)cpu_->registers_->getPC());
+				Logger::Log("Breakpoint found at 0x%04x", (unsigned)cpu_->registers_->getPC());
 			}
 			else if (cmd == "help" || cmd == "h") {
 				// print help
@@ -114,6 +116,13 @@ void Emulator::Debug()
 			else if (cmd == "restart" || cmd == "r") {
 				// run or restart execution
 				cpu_->Reset();
+			}
+			else if (cmd == "d" || cmd == "delete") {
+				// delete breakpoint
+				unsigned b_num;
+				stream >> b_num;
+				unsigned pc = cpu_->registers_->getPC();
+				breakpoint_list.remove(pc);
 			}
 			else if (cmd == "quit" || cmd == "q") {
 				// quit debugger

@@ -20,7 +20,7 @@ uint8_t Mmu::ReadByte(uint16_t address) const
 	}
 	
 	else {
-		std::cout << "Address not yet mapped" << std::endl;
+		Logger::LogError("Address not yet mapped");
 		exit(EXIT_FAILURE);
 	}
 }

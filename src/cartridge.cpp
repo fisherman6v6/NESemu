@@ -34,7 +34,7 @@ bool Cartridge::LoadRom(const std::string & path)
 
 		return false;
 	}
-	std::cout << "File reading Error" << std::endl;
+	Logger::LogError("File reading Error");
 	exit(EXIT_FAILURE);
 }
 
@@ -44,7 +44,7 @@ bool Cartridge::ParseHeader(std::istream & file)
 
 	// checking if iNES format
 	if (!(header_[0] == 'N' && header_[1] == 'E' && header_[2] == 'S' && header_[3] == 0x1A)) {
-		std::cout << "Input file format unknown" << std::endl;
+		Logger::LogError("Input file format unknown");
 		return true;
 	}
 	if ((header_[7] & 0x0C) == 0x08) {
