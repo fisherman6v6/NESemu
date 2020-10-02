@@ -4,18 +4,45 @@ bool Logger::is_enabled_ = true;
 std::ofstream Logger::log_file;
 
 void Logger::Enable() {
-	if (!log_file.is_open()) {
+	/*if (!log_file.is_open()) {
 		log_file.open(LOGFILE, std::ofstream::out);
-	}
+	}*/
 	is_enabled_ = 1;
 }
 
 void Logger::Disable() {
-	if (log_file.is_open()) {
+	/*if (log_file.is_open()) {
 		log_file.close();
-	}
+	}*/
 	
 	is_enabled_ = 0;
+}
+
+void Logger::Log(const char* message, ...) {
+	if (!is_enabled_) {
+        return;
+    }
+
+    va_list argPointer;
+    va_start(argPointer, message);
+
+    char buffer[1024];
+    std::vsnprintf(buffer, ARRAYSIZE(buffer), message, argPointer);
+
+    va_end(argPointer);
+    std::cout << buffer << std::endl;
+}
+
+void Logger::LogError(const char* message, ...) {
+
+	va_list argPointer;
+    va_start(argPointer, message);
+
+    char buffer[1024];
+    std::vsnprintf(buffer, ARRAYSIZE(buffer), message, argPointer);
+
+    va_end(argPointer);
+    std::cerr << buffer << std::endl;
 }
 
 void Logger::LogCpuRegisters(const std::unique_ptr<Registers>& registers)
@@ -46,6 +73,18 @@ void Logger::LogOp(const std::unique_ptr<Registers>& registers, const std::uniqu
 		return;
 	}
 
+	/* Log file is cleared the first time it's opened*/
+	static bool first_time = true;
+
+	if (first_time) {
+		log_file.open(LOGFILE, std::ofstream::out);
+		first_time = false;
+	}
+
+	else {
+		log_file.open(LOGFILE, std::ofstream::app);
+	}
+
 	if (!log_file) {
 		std::cout << "Log File ERROR" << std::endl;
 		return;
@@ -59,6 +98,8 @@ void Logger::LogOp(const std::unique_ptr<Registers>& registers, const std::uniqu
 		" P:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getP() << 
 		" S:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getS() <<
 		" CYC:" << std::dec << (unsigned long int)cyc << std::endl;
+
+	log_file.close();
 }
 
 void Logger::LogMemory(const std::unique_ptr<Mmu>& memory, size_t start, size_t size, const char* tag)

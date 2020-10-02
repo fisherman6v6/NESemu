@@ -1,5 +1,7 @@
 #include "cpu.hpp"
 
+#define ALT_PC 0xc000
+
 Cpu::Cpu() : clock_cycles_(0)
 {
 	
@@ -216,10 +218,16 @@ void Cpu::Reset()
 	registers_->p_ = 0x24;
 	/*stack pointer is decremented by 3 without writing anything on the stack*/
 	registers_->s_ = 0xfd;
+	/* Only for debug puproses. For example running nestest in "automation" mode requires the
+	PC to start from 0xc000. So can be useful to easily switch from the default way of
+	defining the PC at reset and the debug mode that defines an alternative PC*/
+	#ifdef ALT_PC
+		registers_->pc_ = ALT_PC;
+	#else if 
 	registers_->pc_= mmu_->ReadWord(0xfffc);
+	#endif
 
 	clock_cycles_ += 7;
-
 }
 
 uint8_t Cpu::LDA(uint8_t opcode)

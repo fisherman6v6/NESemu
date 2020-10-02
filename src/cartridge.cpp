@@ -21,16 +21,16 @@ bool Cartridge::WriteByte(uint16_t address, uint8_t value)
 
 bool Cartridge::LoadRom(const std::string & path)
 {
-	std::ifstream file(path, std::ios::in | std::ios::binary);
+	std::ifstream rom(path, std::ios::in | std::ios::binary);
 
-	if (file) {
+	if (rom) {
 
 		// get length of file:
-		file.seekg(0, file.end);
-		int length = file.tellg();
-		file.seekg(0, file.beg);
+		rom.seekg(0, rom.end);
+		int length = rom.tellg();
+		rom.seekg(0, rom.beg);
 
-		ParseHeader(file);
+		ParseHeader(rom);
 
 		return false;
 	}

@@ -13,7 +13,8 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 
 	ines_flags.prg_rom_num_ == 1 ? nrom_type = 0 : nrom_type = 1;
 
-	//prg_rom_ = std::make_unique<uint8_t[]>(PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_);
+	//prg_rom_ = std::make_unique<uint8_t>(new uint8_t[PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_]);
+	//chr_rom_ = std::make_unique<uint8_t>(new uint8_t[CHR_ROM_BLOCK_SIZE);
 	prg_rom_ = new uint8_t[PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_];
 	chr_rom_ = new uint8_t[CHR_ROM_BLOCK_SIZE];
 

@@ -113,7 +113,7 @@ void Emulator::Debug()
 			}
 			else if (cmd == "restart" || cmd == "r") {
 				// run or restart execution
-				//cpu_->Reset();
+				cpu_->Reset();
 			}
 			else if (cmd == "quit" || cmd == "q") {
 				// quit debugger
@@ -124,6 +124,7 @@ void Emulator::Debug()
 			}
 		}
 	}
+	Logger::Disable();
 }
 
 void Emulator::NoDebug()

@@ -39,8 +39,8 @@ public:
 
 private:
 
-	//std::unique_ptr<uint8_t[]> prg_rom_;	// 16 KiB for NROM-128, 32 KiB for NROM-256
-	//std::unique_ptr<uint8_t[]> chr_rom_;	// 8 KiB ROM (DIP-28 standard pinout) but most emulators support RAM
+	//std::unique_ptr<uint8_t> prg_rom_;	// 16 KiB for NROM-128, 32 KiB for NROM-256
+	//std::unique_ptr<uint8_t> chr_rom_;	// 8 KiB ROM (DIP-28 standard pinout) but most emulators support RAM
 	//std::unique_ptr<uint8_t[]> prg_ram_;	// 2 or 4 KiB, not bankswitched, only in Family Basic (but most emulators provide 8)
 
 	uint8_t* prg_rom_;	// 16 KiB for NROM-128, 32 KiB for NROM-256
