@@ -12,6 +12,4 @@ Registers::Registers() :
 {
 }
 
-Registers::~Registers()
-{
-}
+Registers::~Registers() = default;

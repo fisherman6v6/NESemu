@@ -4,7 +4,7 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 {
 	if (ines_flags.prg_rom_num_ > 2) {
 		// Wrong mapper
-		std::cout << "Mapper Error" << std::endl;
+		Logger::LogError("Mapper Error");
 		exit(EXIT_FAILURE);
 	}
 

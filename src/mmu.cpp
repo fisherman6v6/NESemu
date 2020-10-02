@@ -29,10 +29,10 @@ bool Mmu::WriteByte(uint16_t address, uint8_t value)
 {
 	if (address >= iRAM_BASE && address <= iRAM_END) {
 		iram_[address] = value;
-		return 0;
+		return false;
 	}
 
-	return 1;
+	return true;
 
 }
 
@@ -49,7 +49,7 @@ bool Mmu::WriteWord(uint16_t address, uint16_t value)
 {
 	WriteByte(address, (uint8_t)(value & 0x00ff));
 	WriteByte(address + 1, (uint8_t)(value >> 8));
-	return 0;
+	return false;
 }
 
 bool Mmu::LoadRom(const std::string & path)

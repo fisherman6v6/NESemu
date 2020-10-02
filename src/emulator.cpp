@@ -14,9 +14,7 @@ Emulator::Emulator(bool mode, const std::string& path)
 	cpu_->Reset();
 }
 
-Emulator::~Emulator()
-{
-}
+Emulator::~Emulator() = default;
 
 void Emulator::Step()
 {

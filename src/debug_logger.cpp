@@ -3,9 +3,7 @@
 bool DebugLogger::is_enabled_ = true;
 std::ofstream DebugLogger::log_file_;
 
-DebugLogger::~DebugLogger() {
-
-}
+DebugLogger::~DebugLogger() = default;
 
 void DebugLogger::LogCpuRegisters(const std::unique_ptr<Registers>& registers)
 {

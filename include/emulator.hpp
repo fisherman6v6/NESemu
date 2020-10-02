@@ -1,13 +1,12 @@
 #pragma once
+#include <string>
+#include <list>
+#include <sstream> 
+#include <algorithm>
 #include "pch.hpp"
 #include "cpu.hpp"
 #include "logger.hpp"
 #include "debug_logger.hpp"
-#include <memory>
-#include <string>
-#include <list>
-#include <sstream> 
-#include <algorithm> 
 
 constexpr auto TIME_PER_FRAME = (1.0 / 60.0);
 constexpr auto CYCLES_PER_FRAME = 29780;

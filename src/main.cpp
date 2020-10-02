@@ -7,8 +7,8 @@
 #include <cstring>
 #include <vector>
 
-constexpr bool DEBUG = 1;
-constexpr bool NODEBUG = 0;
+constexpr bool DEBUG = true;
+constexpr bool NODEBUG = false;
 
 void PrintCommands() {
 
@@ -18,7 +18,7 @@ bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
 	
 	if (argc < 2) {
 		PrintCommands();
-		return 1;
+		return true;
 	}
 
 	int cur = 0;
@@ -30,7 +30,7 @@ bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
 
 		if (args[cur] == "-help" || args[cur] == "-h") {
 			PrintCommands();
-			return 1;
+			return true;
 		}
 
 		if (args[cur] == "-d" || args[cur] == "-debug") {
@@ -41,11 +41,9 @@ bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
 		// other args can be added 
 
 		path = args[cur++];
-
-
 	}
 
-	return 0;
+	return false;
 }
 
 int main(int argc, char **argv)

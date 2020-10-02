@@ -1,11 +1,9 @@
 #pragma once
 #include "i_memory_unit.hpp"
-#include "pch.hpp"
 #include <string>
 #include <fstream>
+#include "pch.hpp"
 #include "logger.hpp"
-#include <memory>
-#include <vector>
 #include "i_mapper.hpp"
 #include "mapper_000.hpp"
 

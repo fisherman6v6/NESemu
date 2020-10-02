@@ -5,9 +5,7 @@ Cartridge::Cartridge(const std::string& path)
 	LoadRom(path);
 }
 
-Cartridge::~Cartridge()
-{
-}
+Cartridge::~Cartridge() = default;
 
 uint8_t Cartridge::ReadByte(uint16_t address) const
 {

@@ -168,9 +168,7 @@ Cpu::Cpu() : clock_cycles_(0)
 
 
 
-Cpu::~Cpu()
-{
-}
+Cpu::~Cpu() = default;
 
 uint64_t Cpu::Step()
 {

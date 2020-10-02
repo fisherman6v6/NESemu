@@ -1,11 +1,11 @@
 #pragma once
-#include "mmu.hpp"
-#include "registers.hpp"
 #include <exception>
 #include <string>
 #include <iostream>
 #include "logger.hpp"
 #include "debug_logger.hpp"
+#include "mmu.hpp"
+#include "registers.hpp"
 
 constexpr auto ISA_SIZE = 256;
 
