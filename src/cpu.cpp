@@ -185,7 +185,7 @@ uint64_t Cpu::Step()
 		clock_cycles_ += op_cycles;
 	}
 	else {
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 	
@@ -323,7 +323,7 @@ uint8_t Cpu::LDA(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -379,7 +379,7 @@ uint8_t Cpu::LDX(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -433,7 +433,7 @@ uint8_t Cpu::LDY(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -492,7 +492,7 @@ uint8_t Cpu::STA(uint8_t opcode)
 		cycles = 6;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -526,7 +526,7 @@ uint8_t Cpu::STX(uint8_t opcode)
 		cycles = 4;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -560,7 +560,7 @@ uint8_t Cpu::STY(uint8_t opcode)
 		cycles = 4;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -770,7 +770,7 @@ uint8_t Cpu::AND(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -847,7 +847,7 @@ uint8_t Cpu::EOR(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -924,7 +924,7 @@ uint8_t Cpu::ORA(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -964,7 +964,7 @@ uint8_t Cpu::BIT(uint8_t opcode)
 		cycles = 4;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1041,7 +1041,7 @@ uint8_t Cpu::ADC(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1121,7 +1121,7 @@ uint8_t Cpu::SBC(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1215,7 +1215,7 @@ uint8_t Cpu::CMP(uint8_t opcode)
 		}
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1259,7 +1259,7 @@ uint8_t Cpu::CPX(uint8_t opcode)
 		cycles = 4;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1302,7 +1302,7 @@ uint8_t Cpu::CPY(uint8_t opcode)
 		cycles = 4;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1350,7 +1350,7 @@ uint8_t Cpu::INC(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1435,7 +1435,7 @@ uint8_t Cpu::DEC(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1510,7 +1510,7 @@ uint8_t Cpu::ASL(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1577,7 +1577,7 @@ uint8_t Cpu::LSR(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1651,7 +1651,7 @@ uint8_t Cpu::ROL(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1727,7 +1727,7 @@ uint8_t Cpu::ROR(uint8_t opcode)
 		cycles = 7;
 		break;
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 
@@ -1806,7 +1806,7 @@ uint8_t Cpu::JMP(uint8_t opcode)
 		return 5;
 	}
 	default:
-		Logger::LogError("Unknown OPcode: 0x02%X at PC = 0x04%X", (unsigned)opcode, (unsigned)registers_->pc_);
+		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
 }
