@@ -22,6 +22,8 @@ public:
 	void LoadRom(const std::string& rompath);
 	
 	void Reset();
+	void IRQn();
+	void NMIn();
 
 private:
 

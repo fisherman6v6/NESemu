@@ -25,7 +25,8 @@
 
 constexpr auto iRAM_BASE = 0x0000;	// internal ram 2kB
 constexpr auto iRAM_END = 0x07ff;
-constexpr auto RAM_SIZE = 0x2000;
+constexpr auto iRAM_MIRROR_END = 0x1fff;
+constexpr auto RAM_SIZE = 0x0800;
 
 constexpr auto cROM_BASE = 0x8000;	// cartiridge rom
 constexpr auto cROM_END = 0xffff;
@@ -34,8 +35,6 @@ constexpr auto cROM_SIZE = 0x8000;
 constexpr auto cRAM_BASE = 0x6000;	// cartridge ram
 constexpr auto cRAM_END = 0x7fff;
 constexpr auto cRAM_SIZE = 0x8000;
-
-// ram mirrors
 
 constexpr auto STACK_BASE = 0x0100;
 constexpr auto STACK_END = 0x01ff;

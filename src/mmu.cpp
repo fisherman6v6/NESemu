@@ -11,11 +11,14 @@ Mmu::~Mmu()
 
 uint8_t Mmu::ReadByte(uint16_t address) const
 {
-	if (address >= iRAM_BASE && address <= iRAM_END) {
-		return iram_[address];
+	if (address >= iRAM_BASE && address <= iRAM_MIRROR_END) {
+		/*System memory at $0000-$07FF is mirrored at $0800-$0FFF, 
+		$1000-$17FF, and $1800-$1FFF - attempting to access memory at, 
+		for example, $0173 is the same as accessing memory at $0973, $1173, or $1973.*/
+		return iram_[address % RAM_SIZE];
 	}
 
-	else if (address >= cROM_BASE && address <= cROM_END) {
+	else if (address >= CARTRIDGE_BASE && address <= CARTRIDGE_END) {
 		return cartridge_->ReadByte(address);
 	}
 	

@@ -222,10 +222,46 @@ void Cpu::Reset()
 	#ifdef ALT_PC
 		registers_->pc_ = ALT_PC;
 	#else
-	registers_->pc_= mmu_->ReadWord(0xfffc);
+	registers_->pc_= mmu_->ReadWord(RESET_BASE);
 	#endif
 
 	clock_cycles_ += 7;
+}
+
+void Cpu::IRQn() {
+	/*Interrupt request
+	An IRQ does basically the same thing as a BRK, 
+	but it clears the B flag in the pushed status byte. 
+	The CPU goes through the same sequence of cycles as in the BRK case
+	*/
+
+	if (registers_->CheckIrd()) {
+		/* Interrupts are masked*/
+		return;
+	}
+
+	// push pc
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, (uint8_t)(registers_->pc_ >> 8));
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE - 1, (uint8_t)(registers_->pc_ & 0x00ff));
+	registers_->s_ -= 2;
+
+	// clear B flag
+	registers_->ClearBrk();
+	// push p
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00100000);
+	registers_->s_ -= 1;
+
+	// load IRQ interrupt vector
+	registers_->pc_ = mmu_->ReadWord(IRQ_BASE);
+
+	clock_cycles_ += 7;
+
+	return;
+
+}
+
+void Cpu::NMIn() {
+	/*Non-maskable interrupt request*/
 }
 
 uint8_t Cpu::LDA(uint8_t opcode)
