@@ -2,7 +2,7 @@
 
 #define ALT_PC 0xc000
 
-Cpu::Cpu() : clock_cycles_(0)
+Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 {
 	
 
@@ -245,11 +245,12 @@ void Cpu::IRQn() {
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE - 1, (uint8_t)(registers_->pc_ & 0x00ff));
 	registers_->s_ -= 2;
 
-	// clear B flag
-	registers_->ClearBrk();
-	// push p
+	// push p with B at 0
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00100000);
 	registers_->s_ -= 1;
+
+	// set Ird to avoid another interrupt
+	registers_->SetIrd();
 
 	// load IRQ interrupt vector
 	registers_->pc_ = mmu_->ReadWord(IRQ_BASE);
@@ -262,6 +263,34 @@ void Cpu::IRQn() {
 
 void Cpu::NMIn() {
 	/*Non-maskable interrupt request*/
+
+	// push pc
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, (uint8_t)(registers_->pc_ >> 8));
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE - 1, (uint8_t)(registers_->pc_ & 0x00ff));
+	registers_->s_ -= 2;
+
+	// push p with B at 0
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00100000);
+	registers_->s_ -= 1;
+
+	// set Ird to avoid another interrupt
+	registers_->SetIrd();
+
+	// load IRQ interrupt vector
+	registers_->pc_ = mmu_->ReadWord(NMI_BASE);
+
+	clock_cycles_ += 7;
+
+	return;
+}
+
+/* Not sure how to handle the interrupt*/
+void Cpu::CallIRQ() {
+	irq_ = false;
+}
+
+void Cpu::CallNMI() {
+	nmi_ = false;
 }
 
 uint8_t Cpu::LDA(uint8_t opcode)
@@ -2098,13 +2127,14 @@ uint8_t Cpu::BRK(uint8_t opcode)
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE - 1, (uint8_t)(registers_->pc_ & 0x00ff));
 	registers_->s_ -= 2;
 
-	// push p
+	// push p with B at 1
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00110000);
 	registers_->s_ -= 1;
 
 	// load IRQ interrupt vector
 	registers_->pc_ = mmu_->ReadWord(IRQ_BASE);
-	registers_->SetBrk();
+	//registers_->SetBrk();
+	registers_->SetIrd();
 
 	return 7;
 }

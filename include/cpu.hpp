@@ -22,8 +22,9 @@ public:
 	void LoadRom(const std::string& rompath);
 	
 	void Reset();
-	void IRQn();
-	void NMIn();
+
+	void CallIRQ();
+	void CallNMI();
 
 private:
 
@@ -32,6 +33,14 @@ private:
 	std::unique_ptr<Mmu> mmu_;
 	std::unique_ptr<Registers> registers_;
 	uint64_t clock_cycles_;
+
+	/* Interrupt pins*/
+	bool nmi_;
+	bool irq_;
+
+	void IRQn();
+	void NMIn();
+	void HandleInterrupts();
 
 					/* ISA */
 	typedef uint8_t(Cpu::*Instruction)(uint8_t opcode);
