@@ -17,9 +17,6 @@ inline bool CheckPageCrossed(uint16_t a, uint8_t b) { return ((((a & 0x00ff) + (
 inline bool CheckPageCrossed(uint16_t a, int8_t b) { return ((((a & 0x00ff) + (int16_t)b) & 0x0100) == 0x0100); }
 
 inline bool CheckNegative(uint8_t a) { return (a & 0x80) >> 7; }
-
-/*inline bool CheckOverflow(uint8_t a, uint8_t b, uint8_t s) { return (((!((a >> 7) == 0x01)) && (!((b >> 7) == 0x01)) && ((s >> 7) == 0x01)) || 
-																	((a >> 7) == 0x01) && ((b >> 7) == 0x01) && (!((s >> 7) == 0x01))); };*/
 																	
 inline bool CheckOverflow(uint8_t a, uint8_t b, uint8_t s) { return ((!CheckNegative(a) && !CheckNegative(b) && CheckNegative(s)) /*pos pos neg*/
 																	|| (CheckNegative(a) && CheckNegative(b) && !CheckNegative(s))) /*neg neg pos*/;};

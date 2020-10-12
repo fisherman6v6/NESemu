@@ -182,12 +182,17 @@ uint64_t Cpu::Step()
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);
-		clock_cycles_ += op_cycles;
 	}
 	else {
 		Logger::LogError("Unknown OPcode: 0x%02X at PC = 0x%04X", (unsigned)opcode, (unsigned)registers_->pc_);
 		exit(EXIT_FAILURE);
 	}
+
+	/* If an interrupt is present, calling the ISR costs 7 cycles*/
+	op_cycles += HandleInterrupts();
+
+	/* Global clock cycles counter*/
+	clock_cycles_ += op_cycles;
 	
 	return op_cycles;
 }
@@ -228,17 +233,12 @@ void Cpu::Reset()
 	clock_cycles_ += 7;
 }
 
-void Cpu::IRQn() {
+uint8_t Cpu::IRQn() {
 	/*Interrupt request
 	An IRQ does basically the same thing as a BRK, 
 	but it clears the B flag in the pushed status byte. 
 	The CPU goes through the same sequence of cycles as in the BRK case
 	*/
-
-	if (registers_->CheckIrd()) {
-		/* Interrupts are masked*/
-		return;
-	}
 
 	// push pc
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, (uint8_t)(registers_->pc_ >> 8));
@@ -255,13 +255,10 @@ void Cpu::IRQn() {
 	// load IRQ interrupt vector
 	registers_->pc_ = mmu_->ReadWord(IRQ_BASE);
 
-	clock_cycles_ += 7;
-
-	return;
-
+	return 7;
 }
 
-void Cpu::NMIn() {
+uint8_t Cpu::NMIn() {
 	/*Non-maskable interrupt request*/
 
 	// push pc
@@ -279,18 +276,21 @@ void Cpu::NMIn() {
 	// load IRQ interrupt vector
 	registers_->pc_ = mmu_->ReadWord(NMI_BASE);
 
-	clock_cycles_ += 7;
-
-	return;
+	return 7;
 }
 
-/* Not sure how to handle the interrupt*/
-void Cpu::CallIRQ() {
-	irq_ = false;
-}
+uint8_t Cpu::HandleInterrupts() {
 
-void Cpu::CallNMI() {
-	nmi_ = false;
+	if (!nmi_) {
+		return NMIn();
+	}
+
+	else if (!registers_->CheckIrd() && !irq_) {
+		/* Interrupts are not masked*/
+		return IRQn();
+	}
+
+	return 0;
 }
 
 uint8_t Cpu::LDA(uint8_t opcode)

@@ -35,7 +35,8 @@ void Emulator::Debug()
 	Logger::Enable();
 	Logger::Log("Starting emulator in Debug Mode");
 
-	std::list<unsigned> breakpoint_list;
+	std::list<std::pair<unsigned, unsigned>> breakpoint_list;
+	unsigned b_num = 0;
 	std::string line;
 
 	while (is_running_) {
@@ -59,7 +60,8 @@ void Emulator::Debug()
 				// set breakpoint
 				unsigned bline;
 				if (stream >> bline) {
-					breakpoint_list.push_back(bline);
+					breakpoint_list.push_back(std::make_pair(b_num, bline));
+					b_num++;
 					Logger::Log("Breakpoint set at 0x%04x", bline);
 				}
 			}
@@ -85,14 +87,13 @@ void Emulator::Debug()
 					}
 					else if (to_print == "b") {
 						// print breakpoint list
-						size_t cnt = 0;
 						if (breakpoint_list.empty()) {
 							Logger::Log("No brekpoint set");
 						}
 						else {
-							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++, cnt++) {
+							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++) {
 								//std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
-								Logger::Log("b %d : 0x%04x", cnt, *it);
+								Logger::Log("b %u : 0x%04x",it->first, it->second);
 							}
 						}
 					}
@@ -104,7 +105,7 @@ void Emulator::Debug()
 				do {
 					Step();
 					pc = cpu_->registers_->getPC();
-				} while (std::find(breakpoint_list.begin(), breakpoint_list.end(), pc) == breakpoint_list.end());
+				} while (std::find_if(breakpoint_list.begin(), breakpoint_list.end(), [&pc](const std::pair<unsigned, unsigned>& element) {return element.second == pc; }) == breakpoint_list.end());
 				Logger::Log("Breakpoint found at 0x%04x", (unsigned)cpu_->registers_->getPC());
 			}
 			else if (cmd == "help" || cmd == "h") {
@@ -117,10 +118,9 @@ void Emulator::Debug()
 			}
 			else if (cmd == "d" || cmd == "delete") {
 				// delete breakpoint
-				/*unsigned b_num;
-				stream >> b_num;
-				unsigned pc = cpu_->registers_->getPC();
-				breakpoint_list.remove(pc);*/
+				unsigned to_delete;
+				stream >> to_delete;
+				breakpoint_list.remove_if([&to_delete](const std::pair<unsigned, unsigned>& element) { return element.first == to_delete; });
 			}
 			else if (cmd == "quit" || cmd == "q") {
 				// quit debugger

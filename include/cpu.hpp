@@ -23,8 +23,11 @@ public:
 	
 	void Reset();
 
-	void CallIRQ();
-	void CallNMI();
+	void SetIRQn() { irq_ = false; };
+	void SetNMIn() { nmi_ = false; };
+
+	void ClearIRQn() { irq_ = true; };
+	void ClearNMIn() { nmi_ = true; };
 
 private:
 
@@ -38,9 +41,10 @@ private:
 	bool nmi_;
 	bool irq_;
 
-	void IRQn();
-	void NMIn();
-	void HandleInterrupts();
+	/*Interrupt lines are active low*/
+	uint8_t IRQn();
+	uint8_t NMIn();
+	uint8_t HandleInterrupts();
 
 					/* ISA */
 	typedef uint8_t(Cpu::*Instruction)(uint8_t opcode);

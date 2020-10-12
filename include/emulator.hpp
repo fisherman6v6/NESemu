@@ -3,6 +3,7 @@
 #include <list>
 #include <sstream> 
 #include <algorithm>
+#include <utility>
 #include "pch.hpp"
 #include "cpu.hpp"
 #include "logger.hpp"
