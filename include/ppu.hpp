@@ -2,6 +2,15 @@
 #include "pch.hpp"
 #include "cpu.hpp"
 
+/*The PPU addresses a 16kB space, $0000-3FFF, 
+completely separate from the CPU's address bus. 
+It is either directly accessed by the PPU itself, 
+or via the CPU with memory mapped registers at $2006 and $2007. 
+*/
+
+/* PPU memory map*/
+
+/* Registers */
 constexpr auto PPUCTRL_ADDR = 0x2000;
 constexpr auto PPUMASK_ADDR = 0x2001;
 constexpr auto PPUSTATUS_ADDR = 0x2002;
@@ -12,21 +21,44 @@ constexpr auto PPUADDR_ADDR = 0x2006;
 constexpr auto PPUDATA_ADDR = 0x2007;
 constexpr auto OAMDMA_ADDR = 0x4014;
 
+/* Memory*/
+constexpr auto PATTERN0_BASE = 0x0000;
+constexpr auto PATTERN0_END = 0x0fff;
+constexpr auto PATTERN1_BASE = 0x1000;
+constexpr auto PATTERN1_END = 0x1fff;
+constexpr auto NAMETABLE0_BASE = 0x2000;
+constexpr auto NAMETABLE0_END = 0x23ff;
+constexpr auto NAMETABLE1_BASE = 0x2400;
+constexpr auto NAMETABLE1_END = 0x27ff;
+constexpr auto NAMETABLE2_BASE = 0x2800;
+constexpr auto NAMETABLE2_END = 0x2bff;
+constexpr auto NAMETABLE3_BASE = 0x2c00;
+constexpr auto NAMETABLE3_END = 0x2fff;
+constexpr auto PALETTE_RAM_BASE = 0x3f00;
+constexpr auto PALETTE_RAM_END = 0x3f1f;
+
+
+
 constexpr auto OAM_SIZE = 256;
 constexpr auto PALETTE_SIZE = 28;
 constexpr auto VRAM_SIZE = 2048;
 
 
-class Ppu {
+class Ppu : IMemoryUnit {
 
 public:
     Ppu();
     ~Ppu();
 
+    uint8_t ReadByte(uint16_t address) const override;
+	bool WriteByte(uint16_t address, uint8_t value) override;
+
 private:
 
+/* even/odd frame flag, toggled each frame 0 - even  1 - odd*/
+bool odd_frame; 
 uint8_t oam_[OAM_SIZE];
-uint8_t palette_[PALETTE_SIZE];
+uint8_t palette_ram[PALETTE_SIZE];
 uint8_t vram_[VRAM_SIZE];
 
 /*PPU REGISTERS*/

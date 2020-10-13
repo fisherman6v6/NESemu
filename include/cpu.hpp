@@ -6,6 +6,7 @@
 #include "debug_logger.hpp"
 #include "mmu.hpp"
 #include "registers.hpp"
+#include "ppu.hpp"
 
 constexpr auto ISA_SIZE = 256;
 
@@ -35,11 +36,13 @@ private:
 
 	std::unique_ptr<Mmu> mmu_;
 	std::unique_ptr<Registers> registers_;
+	//std::unique_ptr<Ppu> ppu_;
+
 	uint64_t clock_cycles_;
 
 	/* Interrupt pins*/
-	bool nmi_;
 	bool irq_;
+	bool nmi_;
 
 	/*Interrupt lines are active low*/
 	uint8_t IRQn();

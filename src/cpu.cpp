@@ -8,6 +8,7 @@ Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 
 	registers_ = std::make_unique<Registers>();
 	mmu_ = std::make_unique<Mmu>();
+	//ppu_ = std::make_unique<Ppu>();
 
 	for (auto & instruction : instructions_) {
 		instruction = nullptr;
@@ -246,7 +247,7 @@ uint8_t Cpu::IRQn() {
 	registers_->s_ -= 2;
 
 	// push p with B at 0
-	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00100000);
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ & 0b11101111);
 	registers_->s_ -= 1;
 
 	// set Ird to avoid another interrupt
@@ -267,7 +268,7 @@ uint8_t Cpu::NMIn() {
 	registers_->s_ -= 2;
 
 	// push p with B at 0
-	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00100000);
+	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ & 0b11101111);
 	registers_->s_ -= 1;
 
 	// set Ird to avoid another interrupt
@@ -692,8 +693,8 @@ uint8_t Cpu::PHA(uint8_t opcode)
 
 uint8_t Cpu::PHP(uint8_t opcode)
 {
-	uint8_t operand = registers_->p_;
-	uint16_t addr = (uint16_t)registers_->s_ + STACK_BASE | 0b00110000;
+	uint8_t operand = registers_->p_ | 0b00110000;
+	uint16_t addr = (uint16_t)registers_->s_ + STACK_BASE;
 
 	mmu_->WriteByte(addr, operand);
 	registers_->s_ -= 1;
@@ -734,7 +735,6 @@ uint8_t Cpu::PLP(uint8_t opcode)
 	CheckBit(operand, ZER) ? registers_->SetZer() : registers_->ClearZer();
 	CheckBit(operand, CAR) ? registers_->SetCar() : registers_->ClearCar();
 
-	//registers_->p_ = operand;
 	registers_->pc_ += 1;
 
 	return 4;
@@ -2130,11 +2130,10 @@ uint8_t Cpu::BRK(uint8_t opcode)
 	// push p with B at 1
 	mmu_->WriteByte((uint16_t)registers_->s_ + STACK_BASE, registers_->p_ | 0b00110000);
 	registers_->s_ -= 1;
+	registers_->SetIrd();
 
 	// load IRQ interrupt vector
 	registers_->pc_ = mmu_->ReadWord(IRQ_BASE);
-	//registers_->SetBrk();
-	registers_->SetIrd();
 
 	return 7;
 }
