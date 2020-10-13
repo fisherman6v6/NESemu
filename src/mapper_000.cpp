@@ -28,7 +28,7 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 		}
 	}
 	
-	for (int i = 0; i < PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_; i++) {
+	for (auto i = 0; i < PRG_ROM_BLOCK_SIZE * ines_flags.prg_rom_num_; i++) {
 		// read PROG ROM
 		rom.get(reinterpret_cast<char*>(prg_rom_)[i]);
 	}
@@ -65,6 +65,7 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 
 Mapper_000::~Mapper_000()
 {
+	Logger::Log("Mapper destructor called");
 	delete[] prg_rom_;
 	delete[] chr_rom_;
 }

@@ -5,8 +5,12 @@ Mmu::Mmu()
 	memset(iram_, 0x00, RAM_SIZE);
 }
 
-Mmu::~Mmu()
-{
+Mmu::~Mmu() {
+	Logger::Log("Mmu destructor called");
+};
+
+void Mmu::Init(std::shared_ptr<Cartridge> cartridge) {
+	this->cartridge_ = cartridge;
 }
 
 uint8_t Mmu::ReadByte(uint16_t address) const
@@ -55,8 +59,8 @@ bool Mmu::WriteWord(uint16_t address, uint16_t value)
 	return false;
 }
 
-bool Mmu::LoadRom(const std::string & path)
+/*bool Mmu::LoadRom(const std::string & path)
 {
 	cartridge_ = std::make_unique<Cartridge>(path);
 	return false;
-}
+}*/

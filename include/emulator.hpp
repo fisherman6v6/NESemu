@@ -6,6 +6,9 @@
 #include <utility>
 #include "pch.hpp"
 #include "cpu.hpp"
+#include "mmu.hpp"
+#include "ppu.hpp"
+#include "cartridge.hpp"
 #include "logger.hpp"
 #include "debug_logger.hpp"
 
@@ -25,7 +28,13 @@ private:
 	bool debug_mode_;
 	const std::string path_;
 	uint64_t clock_cycles_;
-	std::unique_ptr<Cpu> cpu_;
+
+	/* System Components */
+	std::shared_ptr<Cpu> cpu_;
+	std::shared_ptr<Ppu> ppu_;
+	std::shared_ptr<Mmu> mmu_;
+	std::shared_ptr<Cartridge> cartridge_;
+
 	bool is_running_;
 
 	void Debug();

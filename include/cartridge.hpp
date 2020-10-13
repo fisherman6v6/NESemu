@@ -76,11 +76,11 @@ public:
 	uint8_t ReadByte(uint16_t address) const override;
 	bool WriteByte(uint16_t address, uint8_t value) override;
 
-	bool LoadRom(const std::string& path);
-
 private:
 
 	std::unique_ptr<IMapper> mapper_;
+
+	bool LoadRom(const std::string& path);
 
 	bool ParseHeader(std::istream& file);
 

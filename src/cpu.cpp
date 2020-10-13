@@ -7,7 +7,7 @@ Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 	
 
 	registers_ = std::make_unique<Registers>();
-	mmu_ = std::make_unique<Mmu>();
+	//mmu_ = std::make_unique<Mmu>();
 	//ppu_ = std::make_unique<Ppu>();
 
 	for (auto & instruction : instructions_) {
@@ -167,9 +167,15 @@ Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 	instructions_[0xfe] = &Cpu::INC;
 }
 
+void Cpu::Init(std::shared_ptr<Mmu> mmu, std::shared_ptr<Ppu> ppu) {
+	this->mmu_ = mmu;
+	this->ppu_ = ppu;
+}
 
 
-Cpu::~Cpu() = default;
+Cpu::~Cpu() {
+	Logger::Log("Cpu destructor called");
+}
 
 uint64_t Cpu::Step()
 {
@@ -179,7 +185,7 @@ uint64_t Cpu::Step()
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
+	//DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);
@@ -198,12 +204,12 @@ uint64_t Cpu::Step()
 	return op_cycles;
 }
 
-void Cpu::LoadRom(const std::string & rompath)
+/*void Cpu::LoadRom(const std::string & rompath)
 {
 	if (mmu_->LoadRom(rompath)) {
 		exit(EXIT_FAILURE);
 	}
-}
+}*/
 
 void Cpu::Reset()
 {
@@ -602,6 +608,8 @@ uint8_t Cpu::STY(uint8_t opcode)
 
 uint8_t Cpu::TAX(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->a_;
 
 	CheckNegative(operand) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -615,6 +623,8 @@ uint8_t Cpu::TAX(uint8_t opcode)
 
 uint8_t Cpu::TAY(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->a_;
 
 	CheckNegative(operand) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -628,6 +638,8 @@ uint8_t Cpu::TAY(uint8_t opcode)
 
 uint8_t Cpu::TXA(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->x_;
 
 	CheckNegative(operand) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -641,6 +653,8 @@ uint8_t Cpu::TXA(uint8_t opcode)
 
 uint8_t Cpu::TYA(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->y_;
 
 	CheckNegative(operand) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -654,6 +668,8 @@ uint8_t Cpu::TYA(uint8_t opcode)
 
 uint8_t Cpu::TSX(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->s_;
 
 	CheckNegative(operand) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -667,6 +683,8 @@ uint8_t Cpu::TSX(uint8_t opcode)
 
 uint8_t Cpu::TXS(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->x_;
 
 	// Don't know if flags are set
@@ -681,6 +699,8 @@ uint8_t Cpu::TXS(uint8_t opcode)
 
 uint8_t Cpu::PHA(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->a_;
 	uint16_t addr = (uint16_t)registers_->s_ + STACK_BASE;
 	
@@ -693,6 +713,8 @@ uint8_t Cpu::PHA(uint8_t opcode)
 
 uint8_t Cpu::PHP(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t operand = registers_->p_ | 0b00110000;
 	uint16_t addr = (uint16_t)registers_->s_ + STACK_BASE;
 
@@ -705,6 +727,8 @@ uint8_t Cpu::PHP(uint8_t opcode)
 
 uint8_t Cpu::PLA(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->s_ += 1;
 
 	uint16_t addr = (uint16_t)registers_->s_ + STACK_BASE;
@@ -721,6 +745,8 @@ uint8_t Cpu::PLA(uint8_t opcode)
 
 uint8_t Cpu::PLP(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	// Two instructions (PLP and RTI) pull a byte from the stack and set all the flags. They ignore bits 5 and 4. 
 
 	registers_->s_ += 1;
@@ -978,7 +1004,6 @@ uint8_t Cpu::BIT(uint8_t opcode)
 
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
-	bool is_crossed = false;
 	int8_t pc_inc = 0;
 	uint16_t addr = 0x0000;
 
@@ -1400,6 +1425,8 @@ uint8_t Cpu::INC(uint8_t opcode)
 
 uint8_t Cpu::INX(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t res = registers_->x_ + 1;
 	(res == 0) ? registers_->SetZer() : registers_->ClearZer();
 	CheckNegative(res) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -1412,6 +1439,8 @@ uint8_t Cpu::INX(uint8_t opcode)
 
 uint8_t Cpu::INY(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t res = registers_->y_ + 1;
 	(res == 0) ? registers_->SetZer() : registers_->ClearZer();
 	CheckNegative(res) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -1424,6 +1453,8 @@ uint8_t Cpu::INY(uint8_t opcode)
 
 uint8_t Cpu::DEX(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t res = registers_->x_ - 1;
 	(res == 0) ? registers_->SetZer() : registers_->ClearZer();
 	CheckNegative(res) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -1485,6 +1516,8 @@ uint8_t Cpu::DEC(uint8_t opcode)
 
 uint8_t Cpu::DEY(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t res = registers_->y_ - 1;
 	(res == 0) ? registers_->SetZer() : registers_->ClearZer();
 	CheckNegative(res) ? registers_->SetNeg() : registers_->ClearNeg();
@@ -1497,6 +1530,8 @@ uint8_t Cpu::DEY(uint8_t opcode)
 
 uint8_t Cpu::ASL(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
 	uint16_t addr = 0x0000;
@@ -1842,6 +1877,8 @@ uint8_t Cpu::JMP(uint8_t opcode)
 
 uint8_t Cpu::JSR(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	/*JSR pushes the address-1 of the next operation on to the stack 
 	before transferring program control to the following address. 
 	Subroutines are normally terminated by a RTS op code. */
@@ -1865,6 +1902,8 @@ uint8_t Cpu::JSR(uint8_t opcode)
 
 uint8_t Cpu::RTS(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	/*RTS pulls the top two bytes off the stack (low byte first) 
 	and transfers program control to that address+1. It is used, 
 	as expected, to exit a subroutine invoked via JSR which pushed 
@@ -1884,6 +1923,8 @@ uint8_t Cpu::RTS(uint8_t opcode)
 
 uint8_t Cpu::BCC(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -1905,6 +1946,8 @@ uint8_t Cpu::BCC(uint8_t opcode)
 
 uint8_t Cpu::BCS(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -1926,6 +1969,8 @@ uint8_t Cpu::BCS(uint8_t opcode)
 
 uint8_t Cpu::BEQ(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -1947,6 +1992,8 @@ uint8_t Cpu::BEQ(uint8_t opcode)
 
 uint8_t Cpu::BMI(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -1968,6 +2015,8 @@ uint8_t Cpu::BMI(uint8_t opcode)
 
 uint8_t Cpu::BNE(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -1989,6 +2038,8 @@ uint8_t Cpu::BNE(uint8_t opcode)
 
 uint8_t Cpu::BPL(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -2010,6 +2061,8 @@ uint8_t Cpu::BPL(uint8_t opcode)
 
 uint8_t Cpu::BVC(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -2031,6 +2084,8 @@ uint8_t Cpu::BVC(uint8_t opcode)
 
 uint8_t Cpu::BVS(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	int8_t pc_inc = 0x00;
 	uint8_t cycles = 2;
 
@@ -2052,6 +2107,8 @@ uint8_t Cpu::BVS(uint8_t opcode)
 
 uint8_t Cpu::CLC(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->ClearCar();
 
 	registers_->pc_ += 1;
@@ -2061,6 +2118,8 @@ uint8_t Cpu::CLC(uint8_t opcode)
 
 uint8_t Cpu::CLD(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->ClearDec();
 
 	registers_->pc_ += 1;
@@ -2070,6 +2129,8 @@ uint8_t Cpu::CLD(uint8_t opcode)
 
 uint8_t Cpu::CLI(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->ClearIrd();
 
 	registers_->pc_ += 1;
@@ -2079,6 +2140,8 @@ uint8_t Cpu::CLI(uint8_t opcode)
 
 uint8_t Cpu::CLV(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->ClearOvf();
 
 	registers_->pc_ += 1;
@@ -2088,6 +2151,8 @@ uint8_t Cpu::CLV(uint8_t opcode)
 
 uint8_t Cpu::SEC(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->SetCar();
 
 	registers_->pc_ += 1;
@@ -2097,6 +2162,8 @@ uint8_t Cpu::SEC(uint8_t opcode)
 
 uint8_t Cpu::SED(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->SetDec();
 
 	registers_->pc_ += 1;
@@ -2106,6 +2173,8 @@ uint8_t Cpu::SED(uint8_t opcode)
 
 uint8_t Cpu::SEI(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->SetIrd();
 
 	registers_->pc_ += 1;
@@ -2115,6 +2184,8 @@ uint8_t Cpu::SEI(uint8_t opcode)
 
 uint8_t Cpu::BRK(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	/*The BRK instruction forces the generation of an interrupt request. 
 	The program counter + 2 and processor status are pushed on the stack then 
 	the IRQ interrupt vector at $FFFE/F is loaded into the PC and the 
@@ -2140,6 +2211,8 @@ uint8_t Cpu::BRK(uint8_t opcode)
 
 uint8_t Cpu::NOP(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	registers_->pc_ += 1;
 
 	return 2;
@@ -2147,6 +2220,8 @@ uint8_t Cpu::NOP(uint8_t opcode)
 
 uint8_t Cpu::RTI(uint8_t opcode)
 {
+	(void)opcode; //suppress warnings
+
 	/*The RTI instruction is used at the end of an interrupt processing 
 	routine. It pulls the processor flags from the stack followed by 
 	the program counter.*/

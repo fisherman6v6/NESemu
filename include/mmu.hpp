@@ -68,16 +68,18 @@ public:
 	Mmu();
 	~Mmu();
 
+	void Init(std::shared_ptr<Cartridge> cartridge);
+
 	uint8_t ReadByte(uint16_t address) const override;
 	bool WriteByte(uint16_t address, uint8_t value) override;
 
 	uint16_t ReadWord(uint16_t address) const;
 	bool WriteWord(uint16_t address, uint16_t value);
 	
-	bool LoadRom(const std::string& path);
+	//bool LoadRom(const std::string& path);
 
 private:
 	uint8_t iram_[RAM_SIZE];
-	std::unique_ptr<Cartridge> cartridge_;
+	std::shared_ptr<Cartridge> cartridge_;
 };
 

@@ -5,7 +5,9 @@ Cartridge::Cartridge(const std::string& path)
 	LoadRom(path);
 }
 
-Cartridge::~Cartridge() = default;
+Cartridge::~Cartridge() {
+	Logger::Log("Cart destructor called");
+}
 
 uint8_t Cartridge::ReadByte(uint16_t address) const
 {
@@ -24,9 +26,9 @@ bool Cartridge::LoadRom(const std::string & path)
 	if (rom) {
 
 		// get length of file:
-		rom.seekg(0, rom.end);
+		/*rom.seekg(0, rom.end);
 		int length = rom.tellg();
-		rom.seekg(0, rom.beg);
+		rom.seekg(0, rom.beg);*/
 
 		ParseHeader(rom);
 

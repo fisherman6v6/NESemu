@@ -2,19 +2,30 @@
 
 Emulator::Emulator()
 {
-	cpu_ = std::make_unique<Cpu>();
+
 }
 
 Emulator::Emulator(bool mode, const std::string& path)
 {
-	cpu_ = std::make_unique<Cpu>();
+	cpu_ = std::make_shared<Cpu>();
+	ppu_ = std::make_shared<Ppu>();
+	mmu_ = std::make_shared<Mmu>();
+	cartridge_ = std::make_shared<Cartridge>(path);
+
+	cpu_->Init(mmu_, ppu_);
+	ppu_->Init(cpu_, cartridge_);
+	mmu_->Init(cartridge_);
+
 	mode ? RunCallback = &Emulator::Debug : RunCallback = &Emulator::NoDebug;
 	is_running_ = false;
-	cpu_->LoadRom(path);
+	//cpu_->LoadRom(path);
+
 	cpu_->Reset();
 }
 
-Emulator::~Emulator() = default;
+Emulator::~Emulator() {
+	Logger::Log("Emu destructor called");
+}
 
 void Emulator::Step()
 {
@@ -92,7 +103,6 @@ void Emulator::Debug()
 						}
 						else {
 							for (auto it = breakpoint_list.begin(); it != breakpoint_list.end(); it++) {
-								//std::cout << "b" << cnt <<" : " << std::hex << *it << "\n";
 								Logger::Log("b %u : 0x%04x",it->first, it->second);
 							}
 						}
@@ -105,7 +115,9 @@ void Emulator::Debug()
 				do {
 					Step();
 					pc = cpu_->registers_->getPC();
-				} while (std::find_if(breakpoint_list.begin(), breakpoint_list.end(), [&pc](const std::pair<unsigned, unsigned>& element) {return element.second == pc; }) == breakpoint_list.end());
+					
+				} while (std::find_if(breakpoint_list.begin(), breakpoint_list.end(), 
+						[&pc](const std::pair<unsigned, unsigned>& element) {return element.second == pc; }) == breakpoint_list.end());
 				Logger::Log("Breakpoint found at 0x%04x", (unsigned)cpu_->registers_->getPC());
 			}
 			else if (cmd == "help" || cmd == "h") {
@@ -131,7 +143,7 @@ void Emulator::Debug()
 			}
 		}
 	}
-	Logger::Disable();
+	//Logger::Disable();
 }
 
 void Emulator::NoDebug()

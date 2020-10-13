@@ -3,24 +3,28 @@
 #include <string>
 #include <iostream>
 #include "logger.hpp"
+#include "ppu.hpp"
 #include "debug_logger.hpp"
 #include "mmu.hpp"
 #include "registers.hpp"
-#include "ppu.hpp"
+
 
 constexpr auto ISA_SIZE = 256;
 
 class Emulator;
+class Ppu;
 
 class Cpu
 {
 public:
 	Cpu();
 	~Cpu();
+
+	void Init(std::shared_ptr<Mmu> mmu, std::shared_ptr<Ppu> ppu);
 	
 	uint64_t Step();
 
-	void LoadRom(const std::string& rompath);
+	//void LoadRom(const std::string& rompath);
 	
 	void Reset();
 
@@ -34,10 +38,10 @@ private:
 
 	friend class Emulator;
 
-	std::unique_ptr<Mmu> mmu_;
 	std::unique_ptr<Registers> registers_;
-	//std::unique_ptr<Ppu> ppu_;
-
+	std::shared_ptr<Mmu> mmu_;
+	std::shared_ptr<Ppu> ppu_;
+	
 	uint64_t clock_cycles_;
 
 	/* Interrupt pins*/
