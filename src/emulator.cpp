@@ -7,24 +7,27 @@ Emulator::Emulator()
 
 Emulator::Emulator(bool mode, const std::string& path)
 {
-	cpu_ = std::make_shared<Cpu>();
-	ppu_ = std::make_shared<Ppu>();
-	mmu_ = std::make_shared<Mmu>();
-	cartridge_ = std::make_shared<Cartridge>(path);
+	cpu_ = new Cpu;
+	ppu_ = new Ppu;
+	mmu_ = new Mmu;
+	cartridge_ = new Cartridge(path);
 
 	cpu_->Init(mmu_, ppu_);
 	ppu_->Init(cpu_, cartridge_);
-	mmu_->Init(cartridge_);
+	mmu_->Init(cartridge_, ppu_);
 
 	mode ? RunCallback = &Emulator::Debug : RunCallback = &Emulator::NoDebug;
 	is_running_ = false;
-	//cpu_->LoadRom(path);
 
 	cpu_->Reset();
 }
 
 Emulator::~Emulator() {
 	Logger::Log("Emu destructor called");
+	delete cartridge_;
+	delete mmu_;
+	delete ppu_;
+	delete cpu_;
 }
 
 void Emulator::Step()

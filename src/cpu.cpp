@@ -6,9 +6,7 @@ Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 {
 	
 
-	registers_ = std::make_unique<Registers>();
-	//mmu_ = std::make_unique<Mmu>();
-	//ppu_ = std::make_unique<Ppu>();
+	registers_ = new Registers;
 
 	for (auto & instruction : instructions_) {
 		instruction = nullptr;
@@ -167,7 +165,7 @@ Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 	instructions_[0xfe] = &Cpu::INC;
 }
 
-void Cpu::Init(std::shared_ptr<Mmu> mmu, std::shared_ptr<Ppu> ppu) {
+void Cpu::Init(Mmu* mmu, Ppu* ppu) {
 	this->mmu_ = mmu;
 	this->ppu_ = ppu;
 }
@@ -175,17 +173,18 @@ void Cpu::Init(std::shared_ptr<Mmu> mmu, std::shared_ptr<Ppu> ppu) {
 
 Cpu::~Cpu() {
 	Logger::Log("Cpu destructor called");
+	delete registers_;
 }
 
 uint64_t Cpu::Step()
 {
 
-	uint64_t op_cycles = 0;
+	unsigned op_cycles = 0;
 
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	//DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
+	DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);
@@ -240,7 +239,7 @@ void Cpu::Reset()
 	clock_cycles_ += 7;
 }
 
-uint8_t Cpu::IRQn() {
+unsigned Cpu::IRQn() {
 	/*Interrupt request
 	An IRQ does basically the same thing as a BRK, 
 	but it clears the B flag in the pushed status byte. 
@@ -265,7 +264,7 @@ uint8_t Cpu::IRQn() {
 	return 7;
 }
 
-uint8_t Cpu::NMIn() {
+unsigned Cpu::NMIn() {
 	/*Non-maskable interrupt request*/
 
 	// push pc
@@ -286,7 +285,7 @@ uint8_t Cpu::NMIn() {
 	return 7;
 }
 
-uint8_t Cpu::HandleInterrupts() {
+unsigned Cpu::HandleInterrupts() {
 
 	if (!nmi_) {
 		return NMIn();
@@ -300,7 +299,7 @@ uint8_t Cpu::HandleInterrupts() {
 	return 0;
 }
 
-uint8_t Cpu::LDA(uint8_t opcode)
+unsigned Cpu::LDA(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -377,7 +376,7 @@ uint8_t Cpu::LDA(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::LDX(uint8_t opcode)
+unsigned Cpu::LDX(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -430,7 +429,7 @@ uint8_t Cpu::LDX(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::LDY(uint8_t opcode)
+unsigned Cpu::LDY(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -484,7 +483,7 @@ uint8_t Cpu::LDY(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::STA(uint8_t opcode)
+unsigned Cpu::STA(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	int8_t pc_inc = 0;
@@ -538,7 +537,7 @@ uint8_t Cpu::STA(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::STX(uint8_t opcode)
+unsigned Cpu::STX(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	int8_t pc_inc = 0;
@@ -572,7 +571,7 @@ uint8_t Cpu::STX(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::STY(uint8_t opcode)
+unsigned Cpu::STY(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	int8_t pc_inc = 0;
@@ -606,7 +605,7 @@ uint8_t Cpu::STY(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::TAX(uint8_t opcode)
+unsigned Cpu::TAX(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -621,7 +620,7 @@ uint8_t Cpu::TAX(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::TAY(uint8_t opcode)
+unsigned Cpu::TAY(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -636,7 +635,7 @@ uint8_t Cpu::TAY(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::TXA(uint8_t opcode)
+unsigned Cpu::TXA(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -651,7 +650,7 @@ uint8_t Cpu::TXA(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::TYA(uint8_t opcode)
+unsigned Cpu::TYA(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -666,7 +665,7 @@ uint8_t Cpu::TYA(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::TSX(uint8_t opcode)
+unsigned Cpu::TSX(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -681,7 +680,7 @@ uint8_t Cpu::TSX(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::TXS(uint8_t opcode)
+unsigned Cpu::TXS(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -697,7 +696,7 @@ uint8_t Cpu::TXS(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::PHA(uint8_t opcode)
+unsigned Cpu::PHA(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -711,7 +710,7 @@ uint8_t Cpu::PHA(uint8_t opcode)
 	return 3;
 }
 
-uint8_t Cpu::PHP(uint8_t opcode)
+unsigned Cpu::PHP(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -725,7 +724,7 @@ uint8_t Cpu::PHP(uint8_t opcode)
 	return 3;
 }
 
-uint8_t Cpu::PLA(uint8_t opcode)
+unsigned Cpu::PLA(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -743,7 +742,7 @@ uint8_t Cpu::PLA(uint8_t opcode)
 	return 4;
 }
 
-uint8_t Cpu::PLP(uint8_t opcode)
+unsigned Cpu::PLP(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -766,7 +765,7 @@ uint8_t Cpu::PLP(uint8_t opcode)
 	return 4;
 }
 
-uint8_t Cpu::AND(uint8_t opcode)
+unsigned Cpu::AND(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -843,7 +842,7 @@ uint8_t Cpu::AND(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::EOR(uint8_t opcode)
+unsigned Cpu::EOR(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -920,7 +919,7 @@ uint8_t Cpu::EOR(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::ORA(uint8_t opcode)
+unsigned Cpu::ORA(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -997,7 +996,7 @@ uint8_t Cpu::ORA(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BIT(uint8_t opcode)
+unsigned Cpu::BIT(uint8_t opcode)
 {
 	/*The mask pattern in A is ANDed with the value in memory to set or clear the zero flag, 
 	but the result is not kept. Bits 7 and 6 of the value from memory are copied into the N and V flags.*/
@@ -1036,7 +1035,7 @@ uint8_t Cpu::BIT(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::ADC(uint8_t opcode)
+unsigned Cpu::ADC(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1116,7 +1115,7 @@ uint8_t Cpu::ADC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::SBC(uint8_t opcode)
+unsigned Cpu::SBC(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1210,7 +1209,7 @@ uint8_t Cpu::SBC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::CMP(uint8_t opcode)
+unsigned Cpu::CMP(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1288,7 +1287,7 @@ uint8_t Cpu::CMP(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::CPX(uint8_t opcode)
+unsigned Cpu::CPX(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1331,7 +1330,7 @@ uint8_t Cpu::CPX(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::CPY(uint8_t opcode)
+unsigned Cpu::CPY(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1374,7 +1373,7 @@ uint8_t Cpu::CPY(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::INC(uint8_t opcode)
+unsigned Cpu::INC(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1423,7 +1422,7 @@ uint8_t Cpu::INC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::INX(uint8_t opcode)
+unsigned Cpu::INX(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1437,7 +1436,7 @@ uint8_t Cpu::INX(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::INY(uint8_t opcode)
+unsigned Cpu::INY(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1451,7 +1450,7 @@ uint8_t Cpu::INY(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::DEX(uint8_t opcode)
+unsigned Cpu::DEX(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1465,7 +1464,7 @@ uint8_t Cpu::DEX(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::DEC(uint8_t opcode)
+unsigned Cpu::DEC(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1514,7 +1513,7 @@ uint8_t Cpu::DEC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::DEY(uint8_t opcode)
+unsigned Cpu::DEY(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1528,7 +1527,7 @@ uint8_t Cpu::DEY(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::ASL(uint8_t opcode)
+unsigned Cpu::ASL(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1596,7 +1595,7 @@ uint8_t Cpu::ASL(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::LSR(uint8_t opcode)
+unsigned Cpu::LSR(uint8_t opcode)
 {
 	uint8_t cycles = 0;
 	uint8_t operand = 0x00;
@@ -1663,7 +1662,7 @@ uint8_t Cpu::LSR(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::ROL(uint8_t opcode)
+unsigned Cpu::ROL(uint8_t opcode)
 {
 	/*Move each of the bits in either A or M one place to the left. 
 	Bit 0 is filled with the current value of the carry flag whilst 
@@ -1739,7 +1738,7 @@ uint8_t Cpu::ROL(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::ROR(uint8_t opcode)
+unsigned Cpu::ROR(uint8_t opcode)
 {
 	/*Move each of the bits in either A or M one place to the right. 
 	Bit 7 is filled with the current value of the carry flag whilst 
@@ -1815,7 +1814,7 @@ uint8_t Cpu::ROR(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::JMP(uint8_t opcode)
+unsigned Cpu::JMP(uint8_t opcode)
 {
 	uint16_t indirect_addr = 0x0000;
 	uint16_t absolute_addr = 0x0000;
@@ -1875,7 +1874,7 @@ uint8_t Cpu::JMP(uint8_t opcode)
 	}
 }
 
-uint8_t Cpu::JSR(uint8_t opcode)
+unsigned Cpu::JSR(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1900,7 +1899,7 @@ uint8_t Cpu::JSR(uint8_t opcode)
 	return 6;
 }
 
-uint8_t Cpu::RTS(uint8_t opcode)
+unsigned Cpu::RTS(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1921,7 +1920,7 @@ uint8_t Cpu::RTS(uint8_t opcode)
 	return 6;
 }
 
-uint8_t Cpu::BCC(uint8_t opcode)
+unsigned Cpu::BCC(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1944,7 +1943,7 @@ uint8_t Cpu::BCC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BCS(uint8_t opcode)
+unsigned Cpu::BCS(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1967,7 +1966,7 @@ uint8_t Cpu::BCS(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BEQ(uint8_t opcode)
+unsigned Cpu::BEQ(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -1990,7 +1989,7 @@ uint8_t Cpu::BEQ(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BMI(uint8_t opcode)
+unsigned Cpu::BMI(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2013,7 +2012,7 @@ uint8_t Cpu::BMI(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BNE(uint8_t opcode)
+unsigned Cpu::BNE(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2036,7 +2035,7 @@ uint8_t Cpu::BNE(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BPL(uint8_t opcode)
+unsigned Cpu::BPL(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2059,7 +2058,7 @@ uint8_t Cpu::BPL(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BVC(uint8_t opcode)
+unsigned Cpu::BVC(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2082,7 +2081,7 @@ uint8_t Cpu::BVC(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::BVS(uint8_t opcode)
+unsigned Cpu::BVS(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2105,7 +2104,7 @@ uint8_t Cpu::BVS(uint8_t opcode)
 	return cycles;
 }
 
-uint8_t Cpu::CLC(uint8_t opcode)
+unsigned Cpu::CLC(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2116,7 +2115,7 @@ uint8_t Cpu::CLC(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::CLD(uint8_t opcode)
+unsigned Cpu::CLD(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2127,7 +2126,7 @@ uint8_t Cpu::CLD(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::CLI(uint8_t opcode)
+unsigned Cpu::CLI(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2138,7 +2137,7 @@ uint8_t Cpu::CLI(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::CLV(uint8_t opcode)
+unsigned Cpu::CLV(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2149,7 +2148,7 @@ uint8_t Cpu::CLV(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::SEC(uint8_t opcode)
+unsigned Cpu::SEC(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2160,7 +2159,7 @@ uint8_t Cpu::SEC(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::SED(uint8_t opcode)
+unsigned Cpu::SED(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2171,7 +2170,7 @@ uint8_t Cpu::SED(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::SEI(uint8_t opcode)
+unsigned Cpu::SEI(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2182,7 +2181,7 @@ uint8_t Cpu::SEI(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::BRK(uint8_t opcode)
+unsigned Cpu::BRK(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2209,7 +2208,7 @@ uint8_t Cpu::BRK(uint8_t opcode)
 	return 7;
 }
 
-uint8_t Cpu::NOP(uint8_t opcode)
+unsigned Cpu::NOP(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 
@@ -2218,7 +2217,7 @@ uint8_t Cpu::NOP(uint8_t opcode)
 	return 2;
 }
 
-uint8_t Cpu::RTI(uint8_t opcode)
+unsigned Cpu::RTI(uint8_t opcode)
 {
 	(void)opcode; //suppress warnings
 

@@ -30,10 +30,10 @@ private:
 	uint64_t clock_cycles_;
 
 	/* System Components */
-	std::shared_ptr<Cpu> cpu_;
-	std::shared_ptr<Ppu> ppu_;
-	std::shared_ptr<Mmu> mmu_;
-	std::shared_ptr<Cartridge> cartridge_;
+	Cpu* cpu_;
+	Ppu* ppu_;
+	Mmu* mmu_;
+	Cartridge* cartridge_;
 
 	bool is_running_;
 

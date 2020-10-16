@@ -5,6 +5,7 @@
 #include "i_memory_unit.hpp"
 #include "logger.hpp"
 #include "cartridge.hpp"
+#include "ppu.hpp"
 #include "cstring"
 
 /* CPU Memory Map
@@ -41,6 +42,8 @@ constexpr auto STACK_END = 0x01ff;
 
 constexpr auto PPU_REGS_BASE = 0x2000;
 constexpr auto PPU_REGS_END = 0x2007;
+constexpr auto PPU_REGS_MIRROR_END = 0x3fff;
+constexpr auto PPU_REGS_SIZE = 8;
 
 constexpr auto APU_REGS_BASE = 0x4000;	// NES APU and I/O registers
 constexpr auto APU_REGS_END = 0x4017;
@@ -62,24 +65,25 @@ constexpr auto IRQ_BASE = 0x0fffe;
 
 */
 
+class Ppu;
+
 class Mmu : IMemoryUnit
 {
 public:
 	Mmu();
 	~Mmu();
 
-	void Init(std::shared_ptr<Cartridge> cartridge);
+	void Init(Cartridge* cartridge, Ppu* ppu);
 
 	uint8_t ReadByte(uint16_t address) const override;
 	bool WriteByte(uint16_t address, uint8_t value) override;
 
 	uint16_t ReadWord(uint16_t address) const;
 	bool WriteWord(uint16_t address, uint16_t value);
-	
-	//bool LoadRom(const std::string& path);
 
 private:
 	uint8_t iram_[RAM_SIZE];
-	std::shared_ptr<Cartridge> cartridge_;
+	Cartridge* cartridge_;
+	Ppu* ppu_;
 };
 

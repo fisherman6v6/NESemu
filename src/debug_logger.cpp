@@ -5,7 +5,7 @@ std::ofstream DebugLogger::log_file_;
 
 DebugLogger::~DebugLogger() = default;
 
-void DebugLogger::LogCpuRegisters(const std::unique_ptr<Registers>& registers)
+void DebugLogger::LogCpuRegisters(const Registers* registers)
 {
 	if (!is_enabled_) {
 		return;
@@ -27,7 +27,7 @@ void DebugLogger::LogCpuRegisters(const std::unique_ptr<Registers>& registers)
 
 }
 
-void DebugLogger::LogOp(const std::unique_ptr<Registers>& registers, const std::shared_ptr<Mmu>& mmu, uint64_t cyc) {
+void DebugLogger::LogOp(const Registers* registers, const Mmu* mmu, uint64_t cyc) {
 
 	if (!is_enabled_) {
 		return;
@@ -62,7 +62,7 @@ void DebugLogger::LogOp(const std::unique_ptr<Registers>& registers, const std::
 	log_file_.close();
 }
 
-void DebugLogger::LogMemory(const std::shared_ptr<Mmu>& memory, size_t start, size_t size, const char* tag)
+void DebugLogger::LogMemory(const Mmu* memory, size_t start, size_t size, const char* tag)
 {
 	if (!is_enabled_) {
 		return;
@@ -79,9 +79,9 @@ void DebugLogger::LogMemory(const std::shared_ptr<Mmu>& memory, size_t start, si
 	if (tag != nullptr) {
 		std::cout << tag << std::endl;
 	}
-	for (auto i = start; i <= end; i += 16) {
+	for (unsigned i = start; i <= end; i += 16) {
 		printf("%04x: ", i);
-		for (auto j = i; (j < i + 16) && (j <= end); j++) {
+		for (unsigned j = i; (j < i + 16) && (j <= end); j++) {
 			printf("%02x ", (unsigned)memory->ReadByte(j));
 		}
 		std::cout << std::endl;

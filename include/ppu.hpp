@@ -54,21 +54,23 @@ public:
     Ppu();
     ~Ppu();
 
-    void Init(std::shared_ptr<Cpu> cpu, std::shared_ptr<Cartridge> cartridge);
+    void Init(Cpu* cpu, Cartridge* cartridge);
+    void Step(unsigned cycles);
 
     uint8_t ReadByte(uint16_t address) const override;
 	bool WriteByte(uint16_t address, uint8_t value) override;
 
 private:
 
-    std::weak_ptr<Cpu> cpu_;
-    std::weak_ptr<Cartridge> cartridge_;
+    Cpu* cpu_;
+    Cartridge* cartridge_;
 
     /* even/odd frame flag, toggled each frame 0 - even  1 - odd*/
     bool odd_frame; 
     uint8_t oam_[OAM_SIZE];
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
+    uint64_t ppu_cycles;
 
     /*PPU REGISTERS*/
 

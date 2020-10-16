@@ -11,13 +11,15 @@
 
 #define LOGFILE "log/my_log.txt"
 
+class Mmu;
+
 class DebugLogger {
 
 public:
 
-    static void LogCpuRegisters(const std::unique_ptr<Registers>& registers);
-	static void LogMemory(const std::shared_ptr<Mmu>& memory, size_t start, size_t size, const char* tag = nullptr);
-	static void LogOp(const std::unique_ptr<Registers>& registers, const std::shared_ptr<Mmu>& mmu, uint64_t cyc);
+    static void LogCpuRegisters(const Registers* registers);
+	static void LogMemory(const Mmu* memory, size_t start, size_t size, const char* tag = nullptr);
+	static void LogOp(const Registers* registers, const Mmu* mmu, uint64_t cyc);
 	static void Enable();
 	static void Disable();
 	static void DebugHelp();
