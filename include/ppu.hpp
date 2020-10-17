@@ -56,6 +56,7 @@ public:
 
     void Init(Cpu* cpu, Cartridge* cartridge);
     void Step(unsigned cycles);
+    void Reset();
 
     uint8_t ReadByte(uint16_t address) const override;
 	bool WriteByte(uint16_t address, uint8_t value) override;
@@ -66,7 +67,7 @@ private:
     Cartridge* cartridge_;
 
     /* even/odd frame flag, toggled each frame 0 - even  1 - odd*/
-    bool odd_frame; 
+    bool odd_frame_; 
     uint8_t oam_[OAM_SIZE];
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
@@ -97,12 +98,16 @@ private:
     uint8_t oamdata_;
 
     /*bits: xxxx xxxx
-    fine scroll position (two writes: X scroll, Y scroll) */
-    uint8_t ppuscroll_;
+    fine scroll position (two writes: X scroll, Y scroll) 
+    latch is used to know if it's the first or second write*/
+    uint16_t ppuscroll_;
+    bool ppuscroll_latch_;
 
     /*bits: aaaa aaaa 	
-    PPU read/write address (two writes: most significant byte, least significant byte)*/
-    uint8_t ppuaddr_;
+    PPU read/write address (two writes: most significant byte, least significant byte)
+    latch is used to know if it's the first or second write*/
+    uint16_t ppuaddr_;
+    bool ppuaddr_latch_;
 
     /*bits: dddd dddd
     PPU data read/write 

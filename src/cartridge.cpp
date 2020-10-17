@@ -63,7 +63,12 @@ bool Cartridge::ParseHeader(std::istream & file)
 	ines_flags.mirroring_4_ = CheckBit((uint8_t)header_[6], 3);
 	ines_flags.ntsc_ = CheckBit((uint8_t)header_[9], 0);
 
-	uint16_t mapper = (header_[6] & 0xf0) | ((header_[7] & 0xf0) << 8); // iNES mapper number
+	// Lower nibble
+	uint8_t mapper_lo = (header_[6] & 0xf0) >> 4;
+	// Higher nibble
+	uint8_t mapper_hi = header_[7] & 0xf0;
+	// iNES mapper number
+	uint8_t mapper = mapper_hi | mapper_lo; 
 
 	switch (mapper)
 	{

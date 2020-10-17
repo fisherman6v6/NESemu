@@ -1,6 +1,7 @@
 #include "cpu.hpp"
 
-#define ALT_PC 0xc000
+/* Alternative program counter for nestest*/
+//#define ALT_PC 0xc000 
 
 Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
 {
@@ -202,13 +203,6 @@ uint64_t Cpu::Step()
 	
 	return op_cycles;
 }
-
-/*void Cpu::LoadRom(const std::string & rompath)
-{
-	if (mmu_->LoadRom(rompath)) {
-		exit(EXIT_FAILURE);
-	}
-}*/
 
 void Cpu::Reset()
 {
