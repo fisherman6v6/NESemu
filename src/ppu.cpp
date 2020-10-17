@@ -76,14 +76,14 @@ bool Ppu::WriteByte(uint16_t address, uint8_t value) {
             /* First write
                 X scroll*/
             ppuscroll_ = (uint16_t)value << 8;
-            ppuscroll_latch_ = true;
         }
         else {
             /* Second write
                 Y scroll*/
             ppuscroll_ |= (uint16_t)value;
-            ppuscroll_latch_ = false;
+            
         }
+        ppuscroll_latch_ = !ppuscroll_latch_;
         return false;
     }
     case PPUADDR_ADDR : {
@@ -91,14 +91,13 @@ bool Ppu::WriteByte(uint16_t address, uint8_t value) {
             /* First write
                 most significant byte*/
             ppuaddr_ = (uint16_t)value << 8;
-            ppuaddr_latch_ = true;
         }
         else {
             /* Second write
                 least significant byte*/
             ppuaddr_ |= (uint16_t)value;
-            ppuaddr_latch_ = false;
         }
+        ppuaddr_latch_ = !ppuaddr_latch_;
         return false;
     }
     case PPUDATA_ADDR :
