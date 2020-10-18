@@ -44,6 +44,10 @@ constexpr auto PALETTE_RAM_END = 0x3f1f;
 constexpr auto OAM_SIZE = 256;
 constexpr auto PALETTE_SIZE = 28;
 constexpr auto VRAM_SIZE = 2048;
+constexpr auto PATTERN_TABLE_SIZE = 0x1000;
+
+/* tiles per patter table*/
+constexpr auto TILES_PER_PT = 256; 
 
 class Cpu;
 class Cartridge;

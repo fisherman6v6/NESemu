@@ -30,7 +30,41 @@ void Ppu::Step(unsigned cycles) {
 }
 
 void Ppu::RenderPatternTables() {
+    /*
+	$0000-$0FFF Pattern table 0 - left
+	$1000-$1FFF Pattern table 1 - right
+	*/
+    uint8_t left[PATTERN_TABLE_SIZE];
+    uint8_t right[PATTERN_TABLE_SIZE];
 
+    /* Fill pattern tables*/
+
+    for (auto i = 0; i < PATTERN_TABLE_SIZE; i++) {
+        left[i] = cartridge_->ReadByte(i);
+    }
+
+    for (auto i = 0; i < PATTERN_TABLE_SIZE; i++) {
+        right[i] = cartridge_->ReadByte(i + PATTERN1_BASE);
+    }
+
+    uint8_t tile[16] = {0};
+    unsigned pixel_pattern[8][8] = {0};
+
+    for (auto i = 0; i < TILES_PER_PT; i++) {
+
+        /* Fill a tile */
+        for (auto j = 0; j < 16; j++) {
+            tile[j] = left[i * 16 + j];
+        }
+
+        /* Fill pixel pattern */
+        for (auto k = 0; k < 8; k++) {
+            
+            for (auto l = 0; l < 8; l++) {
+
+            }
+        }
+    }
 }
 
 void Ppu::Reset() {
