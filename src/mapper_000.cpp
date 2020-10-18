@@ -8,8 +8,10 @@ Mapper_000::Mapper_000(std::istream& rom, INesFlags& ines_flags)
 		exit(EXIT_FAILURE);
 	}
 
-	// ines_flags.prg_rom_num_ == 1 -> NROM128
-	// ines_flags.prg_rom_num_ == 2 -> NROM256
+	/*
+	ines_flags.prg_rom_num_ == 1 -> NROM128
+	ines_flags.prg_rom_num_ == 2 -> NROM256
+	*/
 
 	ines_flags.prg_rom_num_ == 1 ? nrom_type = 0 : nrom_type = 1;
 
@@ -85,7 +87,14 @@ uint8_t Mapper_000::ReadByte(uint16_t address) const
 			return prg_rom_[address - PRG_ROM_BASE_ADDR_1];
 		}
 	}
-	// CHR ROM reading is missing. This rom is read by the PPU. Cpu cannot access it
+	/* CHR ROM reading. This rom is read by the PPU. Cpu cannot access it */
+	else if (address >= CHR_ROM_BASE_ADDR && address <= CHR_ROM_END_ADDR) {
+		/*
+		$0000-$0FFF Pattern table 0 
+		$1000-$1FFF Pattern table 1 
+		*/
+		return chr_rom_[address - CHR_ROM_BASE_ADDR];
+	} 
 
 	Logger::LogError("Wrong Address %u", address);
 

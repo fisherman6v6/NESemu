@@ -1,6 +1,7 @@
 #include "ppu.hpp"
 
 Ppu::Ppu() :
+            ppu_cycles_(21),
             odd_frame_(false), 
             ppuctrl_(0x00),
             ppumask_(0x00),
@@ -25,7 +26,11 @@ void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
 }
 
 void Ppu::Step(unsigned cycles) {
-    
+    ppu_cycles_ += cycles * 3;
+}
+
+void Ppu::RenderPatternTables() {
+
 }
 
 void Ppu::Reset() {

@@ -23,6 +23,7 @@ public:
 	~Emulator();
 	void Step();
 	void Run();
+	void Reset();
 private:
 
 	bool debug_mode_;

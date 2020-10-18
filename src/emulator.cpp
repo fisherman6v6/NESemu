@@ -44,6 +44,11 @@ void Emulator::Run()
 	}
 }
 
+void Emulator::Reset() {
+	cpu_->Reset();
+	ppu_->Reset();
+}
+
 void Emulator::Debug()
 {
 	Logger::Enable();

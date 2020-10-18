@@ -30,9 +30,12 @@ bool Cartridge::LoadRom(const std::string & path)
 		int length = rom.tellg();
 		rom.seekg(0, rom.beg);*/
 
-		ParseHeader(rom);
+		if (!ParseHeader(rom)) {
+			Logger::Log("ROM loaded successfully: %s", path.c_str());
+			return false;
+		}
 
-		return false;
+		
 	}
 	Logger::LogError("File reading Error");
 	exit(EXIT_FAILURE);

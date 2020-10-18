@@ -63,15 +63,19 @@ public:
 
 private:
 
+    void RenderPatternTables();
+
     Cpu* cpu_;
     Cartridge* cartridge_;
+
+    uint64_t ppu_cycles_;
 
     /* even/odd frame flag, toggled each frame 0 - even  1 - odd*/
     bool odd_frame_; 
     uint8_t oam_[OAM_SIZE];
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
-    uint64_t ppu_cycles;
+    
 
     /*PPU REGISTERS*/
 

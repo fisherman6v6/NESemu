@@ -198,6 +198,9 @@ uint64_t Cpu::Step()
 	/* If an interrupt is present, calling the ISR costs 7 cycles*/
 	op_cycles += HandleInterrupts();
 
+	/* Ppu sync*/
+	ppu_->Step(op_cycles);
+
 	/* Global clock cycles counter*/
 	clock_cycles_ += op_cycles;
 	
