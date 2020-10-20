@@ -77,73 +77,73 @@ private:
 	unsigned TSX(uint8_t opcode);	// Transfer stack pointer to X
 	unsigned TXS(uint8_t opcode);	// Transfer X to stack pointer
 	unsigned PHA(uint8_t opcode);	// Push accumulator on stack
-	unsigned PHP(uint8_t opcode);    // Push processor status on stack   
-	unsigned PLA(uint8_t opcode);    // Pull accumulator from stack 
-	unsigned PLP(uint8_t opcode);    // Pull processor status from stack
+	unsigned PHP(uint8_t opcode);   // Push processor status on stack   
+	unsigned PLA(uint8_t opcode);   // Pull accumulator from stack 
+	unsigned PLP(uint8_t opcode);   // Pull processor status from stack
 	
 	// Logical 
 
-	unsigned AND(uint8_t opcode);    // Logical AND
-	unsigned EOR(uint8_t opcode);    // Exclusive OR
+	unsigned AND(uint8_t opcode);   // Logical AND
+	unsigned EOR(uint8_t opcode);   // Exclusive OR
 	unsigned ORA(uint8_t opcode);	// Logical Inclusive OR	
-	unsigned BIT(uint8_t opcode);    // Bit test 
+	unsigned BIT(uint8_t opcode);   // Bit test 
 
 	// Arithmetic
 
-	unsigned ADC(uint8_t opcode);    // Add with Carry
-	unsigned SBC(uint8_t opcode);    // Subtract with Carry    
-	unsigned CMP(uint8_t opcode);    // Compare accumulator
-	unsigned CPX(uint8_t opcode);    // Compare X register
-	unsigned CPY(uint8_t opcode);    // Compare Y register 
+	unsigned ADC(uint8_t opcode);   // Add with Carry
+	unsigned SBC(uint8_t opcode);   // Subtract with Carry    
+	unsigned CMP(uint8_t opcode);   // Compare accumulator
+	unsigned CPX(uint8_t opcode);   // Compare X register
+	unsigned CPY(uint8_t opcode);   // Compare Y register 
 
 	// Increments and Decrements
 
-	unsigned INC(uint8_t opcode);    // Increment a memory location 
-	unsigned INX(uint8_t opcode);    // Increment the X register
-	unsigned INY(uint8_t opcode);    // Increment the Y register 
-	unsigned DEX(uint8_t opcode);    // Decrement a memory location
-	unsigned DEC(uint8_t opcode);    // Decrement the X register 
-	unsigned DEY(uint8_t opcode);    // Decrement the Y register
+	unsigned INC(uint8_t opcode);   // Increment a memory location 
+	unsigned INX(uint8_t opcode);   // Increment the X register
+	unsigned INY(uint8_t opcode);   // Increment the Y register 
+	unsigned DEX(uint8_t opcode);   // Decrement a memory location
+	unsigned DEC(uint8_t opcode);   // Decrement the X register 
+	unsigned DEY(uint8_t opcode);   // Decrement the Y register
 	
 	// Shifts
 
-	unsigned ASL(uint8_t opcode);    // Arithmetic Shift Left
-	unsigned LSR(uint8_t opcode);    // Logical Shift Right
-	unsigned ROL(uint8_t opcode);    // Rotate Left
-	unsigned ROR(uint8_t opcode);    // Rotate Right
+	unsigned ASL(uint8_t opcode);   // Arithmetic Shift Left
+	unsigned LSR(uint8_t opcode);   // Logical Shift Right
+	unsigned ROL(uint8_t opcode);   // Rotate Left
+	unsigned ROR(uint8_t opcode);   // Rotate Right
 
 	// Jumps and Calls
 
-	unsigned JMP(uint8_t opcode);    // Jump to another location 
-	unsigned JSR(uint8_t opcode);    // Jump to a subroutine 
-	unsigned RTS(uint8_t opcode);    // Return from subroutine 
+	unsigned JMP(uint8_t opcode);   // Jump to another location 
+	unsigned JSR(uint8_t opcode);   // Jump to a subroutine 
+	unsigned RTS(uint8_t opcode);   // Return from subroutine 
 	
 	// Branches
 	
-	unsigned BCC(uint8_t opcode);    // Branch if carry flag clear 
-	unsigned BCS(uint8_t opcode);    // Branch if carry flag set 
-	unsigned BEQ(uint8_t opcode);    // Branch if zero flag set
-	unsigned BMI(uint8_t opcode);    // Branch if negative flag set 
-	unsigned BNE(uint8_t opcode);    // Branch if zero flag clear 
-	unsigned BPL(uint8_t opcode);    // Branch if negative flag clear
-	unsigned BVC(uint8_t opcode);    // Branch if overflow flag clear 
-	unsigned BVS(uint8_t opcode);    // Branch if overflow flag set
+	unsigned BCC(uint8_t opcode);   // Branch if carry flag clear 
+	unsigned BCS(uint8_t opcode);   // Branch if carry flag set 
+	unsigned BEQ(uint8_t opcode);   // Branch if zero flag set
+	unsigned BMI(uint8_t opcode);   // Branch if negative flag set 
+	unsigned BNE(uint8_t opcode);   // Branch if zero flag clear 
+	unsigned BPL(uint8_t opcode);   // Branch if negative flag clear
+	unsigned BVC(uint8_t opcode);   // Branch if overflow flag clear 
+	unsigned BVS(uint8_t opcode);   // Branch if overflow flag set
 
 	// Status Flag Changes
 
-	unsigned CLC(uint8_t opcode);    // Clear carry flag 
-	unsigned CLD(uint8_t opcode);    // Clear decimal mode flag
-	unsigned CLI(uint8_t opcode);    // Clear interrupt disable flag 
-	unsigned CLV(uint8_t opcode);    // Clear overflow flag 
-	unsigned SEC(uint8_t opcode);    // Set carry flag
-	unsigned SED(uint8_t opcode);    // Set decimal mode flag 
-	unsigned SEI(uint8_t opcode);    // Set interrupt disable flag
+	unsigned CLC(uint8_t opcode);   // Clear carry flag 
+	unsigned CLD(uint8_t opcode);   // Clear decimal mode flag
+	unsigned CLI(uint8_t opcode);   // Clear interrupt disable flag 
+	unsigned CLV(uint8_t opcode);   // Clear overflow flag 
+	unsigned SEC(uint8_t opcode);   // Set carry flag
+	unsigned SED(uint8_t opcode);   // Set decimal mode flag 
+	unsigned SEI(uint8_t opcode);   // Set interrupt disable flag
 
 	//System Functions
 
-	unsigned BRK(uint8_t opcode);    // Force an interrupt
-	unsigned NOP(uint8_t opcode);    // No Operation
-	unsigned RTI(uint8_t opcode);    // Return from Interrupt
+	unsigned BRK(uint8_t opcode);   // Force an interrupt
+	unsigned NOP(uint8_t opcode);   // No Operation
+	unsigned RTI(uint8_t opcode);   // Return from Interrupt
 
 				/*End ISA */
 

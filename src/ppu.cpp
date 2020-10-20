@@ -29,13 +29,15 @@ void Ppu::Step(unsigned cycles) {
     ppu_cycles_ += cycles * 3;
 }
 
-void Ppu::RenderPatternTables() {
+void Ppu::RenderPatternTable() {
     /*
 	$0000-$0FFF Pattern table 0 - left
 	$1000-$1FFF Pattern table 1 - right
 	*/
     uint8_t left[PATTERN_TABLE_SIZE];
-    uint8_t right[PATTERN_TABLE_SIZE];
+    //uint8_t right[PATTERN_TABLE_SIZE];
+
+    unsigned display[TILES_PER_PT][];
 
     /* Fill pattern tables*/
 
@@ -43,27 +45,45 @@ void Ppu::RenderPatternTables() {
         left[i] = cartridge_->ReadByte(i);
     }
 
-    for (auto i = 0; i < PATTERN_TABLE_SIZE; i++) {
+    /*for (auto i = 0; i < PATTERN_TABLE_SIZE; i++) {
         right[i] = cartridge_->ReadByte(i + PATTERN1_BASE);
-    }
+    }*/
 
-    uint8_t tile[16] = {0};
-    unsigned pixel_pattern[8][8] = {0};
+    uint8_t tile[LINES_PER_TILE] = {0};
+    unsigned pixel_pattern[PIXEL_LINES_PER_PP][PIXEL_PER_LINE] = {0};
 
     for (auto i = 0; i < TILES_PER_PT; i++) {
 
         /* Fill a tile */
-        for (auto j = 0; j < 16; j++) {
-            tile[j] = left[i * 16 + j];
+        for (auto j = 0; j < LINES_PER_TILE; j++) {
+            tile[j] = left[i * LINES_PER_TILE + j];
         }
 
         /* Fill pixel pattern */
-        for (auto k = 0; k < 8; k++) {
+        for (auto k = 0; k < PIXEL_LINES_PER_PP; k++) {
             
-            for (auto l = 0; l < 8; l++) {
-
+            for (auto l = 0; l < PIXEL_PER_LINE; l++) {
+                
+                /* case 0 - 0 */
+                if (!CheckBit(tile[k + LINES_PER_PLANE], (PIXEL_PER_LINE - 1 - l)) && !CheckBit(tile[k], (PIXEL_PER_LINE - 1 - l))) {
+                    pixel_pattern[k][l] = 0;
+                }
+                /* case 0 - 1 */
+                else if (!CheckBit(tile[k + LINES_PER_PLANE], (PIXEL_PER_LINE - 1 - l)) && CheckBit(tile[k], (PIXEL_PER_LINE - 1 - l))) {
+                    pixel_pattern[k][l] = 1;
+                }
+                /* case 1 - 0 */
+                else if (CheckBit(tile[k + LINES_PER_PLANE], (PIXEL_PER_LINE - 1 - l)) && !CheckBit(tile[k], (PIXEL_PER_LINE - 1 - l))) {
+                    pixel_pattern[k][l] = 2;
+                }
+                /* case 1 - 1 */
+                else {
+                    pixel_pattern[k][l] = 3;
+                }
             }
         }
+
+        
     }
 }
 

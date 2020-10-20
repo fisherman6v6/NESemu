@@ -3,6 +3,7 @@
 #include "cpu.hpp"
 #include "cartridge.hpp"
 #include "logger.hpp"
+#include <vector>
 
 /*The PPU addresses a 16kB space, $0000-3FFF, 
 completely separate from the CPU's address bus. 
@@ -47,7 +48,16 @@ constexpr auto VRAM_SIZE = 2048;
 constexpr auto PATTERN_TABLE_SIZE = 0x1000;
 
 /* tiles per patter table*/
-constexpr auto TILES_PER_PT = 256; 
+constexpr auto TILES_PER_PT = 256;
+/* lines per tile */
+constexpr auto LINES_PER_TILE = 16;
+/* two planes in each tile*/
+constexpr auto LINES_PER_PLANE = LINES_PER_TILE / 2; 
+
+/* Pixel lines per pixel pattern*/
+constexpr auto PIXEL_LINES_PER_PP = 8;
+
+constexpr auto PIXEL_PER_LINE = 8;
 
 class Cpu;
 class Cartridge;
@@ -67,7 +77,7 @@ public:
 
 private:
 
-    void RenderPatternTables();
+    void RenderPatternTable();
 
     Cpu* cpu_;
     Cartridge* cartridge_;
