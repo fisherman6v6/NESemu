@@ -90,6 +90,7 @@ private:
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
     
+    unsigned display_[TILES_PER_PT][PIXEL_PER_LINE][PIXEL_LINES_PER_PP] = {0};
 
     /*PPU REGISTERS*/
 

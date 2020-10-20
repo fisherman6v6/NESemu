@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/bin/main.out",
             "preLaunchTask": "Build C++ project",
             //"args": ["-d", "test/nestest.nes"],
-            "args": ["-d", "test/instr_test-v3/official_only.nes"],
+            "args": ["-d", "test/Donkey_Kong.nes"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

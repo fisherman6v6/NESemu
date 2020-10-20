@@ -1,5 +1,15 @@
 #include "ppu.hpp"
 
+const uint8_t colors_[]
+{
+    0xEB,   //off
+    0xC4,   //33% on   
+    0x60,   //66% on
+    0x00    //on
+};
+
+
+
 Ppu::Ppu() :
             ppu_cycles_(21),
             odd_frame_(false), 
@@ -27,6 +37,7 @@ void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
 
 void Ppu::Step(unsigned cycles) {
     ppu_cycles_ += cycles * 3;
+    RenderPatternTable();
 }
 
 void Ppu::RenderPatternTable() {
@@ -36,8 +47,6 @@ void Ppu::RenderPatternTable() {
 	*/
     uint8_t left[PATTERN_TABLE_SIZE];
     //uint8_t right[PATTERN_TABLE_SIZE];
-
-    unsigned display[TILES_PER_PT][];
 
     /* Fill pattern tables*/
 
@@ -83,7 +92,12 @@ void Ppu::RenderPatternTable() {
             }
         }
 
-        
+        /* copy pixel pattern into display*/
+        for(auto j = 0; j < PIXEL_LINES_PER_PP; j++) {
+            for (auto k = 0; k < PIXEL_PER_LINE; k++) {
+                display_[i][j][k] = colors_[pixel_pattern[j][k]];
+            }
+        }
     }
 }
 
