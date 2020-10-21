@@ -3,7 +3,7 @@
 #include "cpu.hpp"
 #include "cartridge.hpp"
 #include "logger.hpp"
-#include <vector>
+#include <SFML/Graphics.hpp>
 
 /*The PPU addresses a 16kB space, $0000-3FFF, 
 completely separate from the CPU's address bus. 
@@ -77,6 +77,18 @@ public:
 
 private:
 
+    /* Temporary: SFML rendering stuff*/
+
+    sf::RenderWindow window_;
+    sf::Texture frame_texture_;
+    sf::Sprite frame_sprite_;
+
+    void Render();
+    void HandleEvents();
+    void CreateSprite();
+
+    /**********************************/
+
     void RenderPatternTable();
 
     Cpu* cpu_;
@@ -90,7 +102,7 @@ private:
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
     
-    unsigned display_[TILES_PER_PT][PIXEL_PER_LINE][PIXEL_LINES_PER_PP] = {0};
+    uint8_t display_[TILES_PER_PT][PIXEL_PER_LINE][PIXEL_LINES_PER_PP] = {0};
 
     /*PPU REGISTERS*/
 

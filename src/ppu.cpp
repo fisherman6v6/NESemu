@@ -1,5 +1,9 @@
 #include "ppu.hpp"
 
+#define GRAPHICS 0
+#define WIN_L 128
+#define WIN_H 128
+
 const uint8_t colors_[]
 {
     0xEB,   //off
@@ -24,6 +28,13 @@ Ppu::Ppu() :
             ppudata_(0x00)          
 {
 
+    #if GRAPHICS
+    window_.create(sf::VideoMode(WIN_L, WIN_H), "CHR");
+    window_.setFramerateLimit(1000);
+    window_.setVerticalSyncEnabled(false);
+    CreateSprite();
+    #endif
+
 }
 
 Ppu::~Ppu() {
@@ -37,7 +48,10 @@ void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
 
 void Ppu::Step(unsigned cycles) {
     ppu_cycles_ += cycles * 3;
+    #if GRAPHICS
     RenderPatternTable();
+    Render();
+    #endif
 }
 
 void Ppu::RenderPatternTable() {
@@ -185,3 +199,60 @@ bool Ppu::WriteByte(uint16_t address, uint8_t value) {
     }
     return 0;
 }
+
+/* Temp: rendering functions*/
+void Ppu::HandleEvents() {
+    sf::Event event;
+    while (window_.pollEvent(event)){
+        if (event.type == sf::Event::Closed) {
+            window_.close();
+        }
+        else if (event.type == sf::Event::KeyPressed) {
+            (void)0;
+        }
+    }
+}
+
+void Ppu::Render() {
+    window_.clear();
+    sf::Image frame;
+    frame.create(WIN_L, WIN_H);
+    //uint8_t* gpu_frame = get_frame();
+    //uint8_t arr[160][144][4];
+    //uint8_t arr[160*144*4];
+    //memcpy(arr, display_, 160*144*4);
+
+    #if TEST
+        static bool flag = false;
+        sf::CircleShape shape(100.f);
+        flag ? shape.setFillColor(sf::Color::Green) : shape.setFillColor(sf::Color::Red);
+        flag = !flag;
+        window.clear();
+        window.draw(shape);
+        window.display();
+        return;
+    #else
+
+    for (auto y = 0; y < WIN_L; y++) {
+        for (auto x = 0; x < WIN_H; x++) {
+            frame.setPixel(x, y, sf::Color(display_[x][y][0], display_[x][y][1], display_[x][y][2]));
+        }
+    }
+    window_.clear();
+    frame_texture_.update(frame);
+    window_.draw(frame_sprite_);
+    window_.display();
+
+    #endif
+}
+
+void Ppu::CreateSprite() {
+    frame_texture_.create(WIN_L, WIN_H);
+
+    const auto scale_x = static_cast<float>(window_.getSize().x) / WIN_L;
+    const auto scale_y = static_cast<float>(window_.getSize().x) / WIN_H;
+
+    frame_sprite_.setTexture(frame_texture_);
+    frame_sprite_.setScale(scale_x, scale_y);
+}
+/****************************/
