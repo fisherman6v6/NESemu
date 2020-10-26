@@ -5,8 +5,9 @@ Emulator::Emulator()
 
 }
 
-Emulator::Emulator(bool mode, const std::string& path)
+Emulator::Emulator(bool mode, const std::string& path, const std::string& logfile_path)
 {
+	DebugLogger::SetLogFile(logfile_path);
 	cpu_ = new Cpu;
 	ppu_ = new Ppu;
 	mmu_ = new Mmu;

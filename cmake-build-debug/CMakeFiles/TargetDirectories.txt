@@ -1,0 +1,3 @@
+/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/NESemu.dir

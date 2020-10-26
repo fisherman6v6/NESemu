@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="NESemu"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\usr\lib\cmake\SFML\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/alessandro/Playground/NESemu/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/alessandro/Playground/NESemu/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/alessandro/Playground/NESemu/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="NESemu">
+				<Option output="/home/alessandro/Playground/NESemu/cmake-build-debug/NESemu" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/alessandro/Playground/NESemu/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/alessandro/Playground/NESemu/."/>
+					<Add directory="/home/alessandro/Playground/NESemu/include"/>
+					<Add directory="/home/alessandro/Playground/NESemu/src"/>
+					<Add directory="/home/alessandro/Playground/NESemu/SFML_INCLUDE_DIR"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 NESemu"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="NESemu/fast">
+				<Option output="/home/alessandro/Playground/NESemu/cmake-build-debug/NESemu" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/alessandro/Playground/NESemu/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/alessandro/Playground/NESemu/."/>
+					<Add directory="/home/alessandro/Playground/NESemu/include"/>
+					<Add directory="/home/alessandro/Playground/NESemu/src"/>
+					<Add directory="/home/alessandro/Playground/NESemu/SFML_INCLUDE_DIR"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 NESemu/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/alessandro/Playground/NESemu/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/cartridge.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/cpu.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/debug_logger.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/debugger.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/emulator.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/fps_counter.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/i_mapper.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/i_memory_unit.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/logger.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/mapper_000.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/mmu.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/pch.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/ppu.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/registers.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/cartridge.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/cpu.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/debug_logger.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/debugger.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/emulator.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/fps_counter.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/logger.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/main.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/mapper_000.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/mmu.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/ppu.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/registers.cpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/../../../../usr/lib/cmake/SFML/SFMLConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/../../../../usr/lib/cmake/SFML/SFMLConfigDependencies.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/../../../../usr/lib/cmake/SFML/SFMLConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/../../../../usr/lib/cmake/SFML/SFMLSharedTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\cmake\SFML\"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/../../../../usr/lib/cmake/SFML/SFMLSharedTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\cmake\SFML\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

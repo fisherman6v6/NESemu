@@ -10,11 +10,13 @@
 constexpr bool DEBUG = true;
 constexpr bool NODEBUG = false;
 
-void PrintCommands() {
+#define DEFAULT_LOGFILE "my_log.txt"
 
+void PrintCommands() {
+	std::cout << "Commands:" << std::endl;
 }
 
-bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
+bool ParseArgs(int argc, char **argv, bool& mode, std::string& path, std::string& logfile_path) {
 	
 	if (argc < 2) {
 		PrintCommands();
@@ -28,7 +30,7 @@ bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
 
 	while (cur < argc - 1) {
 
-		if (args[cur] == "-help" || args[cur] == "-h") {
+		if (args[cur] == "-help" || args[cur] == "-h" || argc < 2) {
 			PrintCommands();
 			return true;
 		}
@@ -36,25 +38,33 @@ bool ParseArgs(int argc, char **argv, bool& mode, std::string& path) {
 		if (args[cur] == "-d" || args[cur] == "-debug") {
 			mode = DEBUG;
 			cur++;
+			continue;
 		}
 
-		// other args can be added 
-
 		path = args[cur++];
+		// other args can be added
+		if (cur == argc - 1) {
+			logfile_path = DEFAULT_LOGFILE;
+			return false;
+		} 
+
+		logfile_path = args[cur++];
+		return false;
+		
 	}
 
-	return false;
+	return true;
 }
 
 int main(int argc, char **argv)
 {
 	bool mode;
 	std::string path;
+	std::string logfile_path;
 
-	std::cout << argv[0] << " " << argv[1] << " " << argv[2] << std::endl;
-
-	if (!ParseArgs(argc, argv, mode, path)) {
-		Emulator emulator(mode, path);
+	if (!ParseArgs(argc, argv, mode, path, logfile_path)) {
+		std::cout << "rom path: " << path << "\n" << "logfile path: " << logfile_path << std::endl;
+		Emulator emulator(mode, path, logfile_path);
 		emulator.Run();
 	}
 

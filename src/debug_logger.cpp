@@ -2,6 +2,7 @@
 
 bool DebugLogger::is_enabled_ = true;
 std::ofstream DebugLogger::log_file_;
+std::string DebugLogger::log_file_path_ = LOGFILE;
 
 DebugLogger::~DebugLogger() = default;
 

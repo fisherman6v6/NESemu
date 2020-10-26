@@ -9,7 +9,7 @@
 #include "mmu.hpp"
 #include "registers.hpp"
 
-#define LOGFILE "log/my_log.txt"
+#define LOGFILE "my_log.txt"
 
 class Mmu;
 
@@ -23,9 +23,11 @@ public:
 	static void Enable();
 	static void Disable();
 	static void DebugHelp();
+	static void SetLogFile(const std::string& log_file_path) { log_file_path_ = log_file_path;};
 
 private:
     ~DebugLogger();
 	static bool is_enabled_;
 	static std::ofstream log_file_;
+	static std::string log_file_path_;
 };

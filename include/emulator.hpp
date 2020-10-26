@@ -19,7 +19,7 @@ class Emulator
 {
 public:
 	Emulator();
-	Emulator(bool mode, const std::string& path);
+	Emulator(bool mode, const std::string& path, const std::string& logfile_path);
 	~Emulator();
 	void Step();
 	void Run();
