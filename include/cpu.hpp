@@ -33,6 +33,8 @@ public:
 	void ClearIRQn() { irq_ = true; };
 	void ClearNMIn() { nmi_ = true; };
 
+	const Registers* GetRegisters() const { return registers_; }
+
 private:
 
 	friend class Emulator;

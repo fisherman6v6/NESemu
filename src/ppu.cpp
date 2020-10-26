@@ -40,7 +40,6 @@ Ppu::Ppu() :
 
 Ppu::~Ppu() {
     Logger::Log("Ppu destructor called");
-    window_.close();
 }
 
 void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
@@ -51,44 +50,10 @@ void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
 void Ppu::Step(unsigned cycles) {
     ppu_cycles_ += cycles * 3;
     #if GRAPHICS
+    HandleEvents();
     RenderPatternTables();
     Render();
     #endif
-}
-
-void Ppu::RenderPatternTables() {
-    /*
-	$0000-$0FFF Pattern table 0 - left
-	$1000-$1FFF Pattern table 1 - right
-	*/
-
-    // uint8_t pattern_table[2 * kPatterTableSize];
-    // uint8_t tile[kLinesPerTile] = {0};
-    // uint8_t pixel_pattern[kPixelLinesPerPixelPattern][kPixelPerLine] = {0};
-
-    // /* Fill pattern tables*/
-
-    // for (auto i = 0; i < 2 * kPatterTableSize; i++) {
-    //     pattern_table[i] = cartridge_->ReadByte(i);
-    // }
-
-    for (auto row = 0; row < WIN_H; row++) {
-
-        for (auto col = 0; col < WIN_L; col++) {
-
-            uint16_t addr = (row / 8 * 256) + (row % 8) + (col / 8) * 16;
-
-            uint8_t pixel_msb = (uint8_t)CheckBit(cartridge_->ReadByte(addr), (7 - (col % 8)));
-            uint8_t pixel_lsb = (uint8_t)CheckBit(cartridge_->ReadByte(addr + 8), (7 - (col % 8)));
-            uint8_t pixel = 2*pixel_msb + pixel_lsb;
-
-            display_[(row * WIN_L * 4) + (col * 4)] = colors_[pixel];
-            display_[(row * WIN_L * 4) + (col * 4) + 1] = colors_[pixel];
-            display_[(row * WIN_L * 4) + (col * 4) + 2] = colors_[pixel];
-            display_[(row * WIN_L * 4) + (col * 4) + 3] = 0xff;
-
-        }
-    }
 }
 
 void Ppu::Reset() {
@@ -177,6 +142,46 @@ bool Ppu::WriteByte(uint16_t address, uint8_t value) {
 }
 
 /* Temp: rendering functions*/
+
+void Ppu::RenderPatternTables() {
+    /*
+	$0000-$0FFF Pattern table 0 - left
+	$1000-$1FFF Pattern table 1 - right
+	*/
+
+    // uint8_t pattern_table[2 * kPatterTableSize];
+    // uint8_t tile[kLinesPerTile] = {0};
+    // uint8_t pixel_pattern[kPixelLinesPerPixelPattern][kPixelPerLine] = {0};
+
+    // /* Fill pattern tables*/
+
+    // for (auto i = 0; i < 2 * kPatterTableSize; i++) {
+    //     pattern_table[i] = cartridge_->ReadByte(i);
+    // }
+    uint16_t addr = 0;
+    uint8_t pixel_msb = 0;
+    uint8_t pixel_lsb = 0;
+    uint8_t pixel = 0;
+
+    for (auto row = 0; row < WIN_H; row++) {
+
+        for (auto col = 0; col < WIN_L; col++) {
+
+            addr = ((row / 8) * 256) + (row % 8) + (col / 8) * 16;
+
+            pixel_msb = (uint8_t)CheckBit(cartridge_->ReadByte(addr), (7 - (col % 8)));
+            pixel_lsb = (uint8_t)CheckBit(cartridge_->ReadByte(addr + 8), (7 - (col % 8)));
+            pixel = 2*pixel_msb + pixel_lsb;
+
+            display_[(row * WIN_L * 4) + (col * 4) + 0] = colors_[pixel];   //R
+            display_[(row * WIN_L * 4) + (col * 4) + 1] = colors_[pixel];   //G
+            display_[(row * WIN_L * 4) + (col * 4) + 2] = colors_[pixel];   //B
+            display_[(row * WIN_L * 4) + (col * 4) + 3] = 0xff;             //A
+
+        }
+    }
+}
+
 void Ppu::HandleEvents() {
     sf::Event event;
     while (window_.pollEvent(event)){

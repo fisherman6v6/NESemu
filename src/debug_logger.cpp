@@ -27,7 +27,7 @@ void DebugLogger::LogCpuRegisters(const Registers* registers)
 
 }
 
-void DebugLogger::LogOp(const Registers* registers, const Mmu* mmu, uint64_t cyc) {
+void DebugLogger::FileLogOp(const Registers* registers, const Mmu* mmu, uint64_t cyc) {
 
 	if (!is_enabled_) {
 		return;

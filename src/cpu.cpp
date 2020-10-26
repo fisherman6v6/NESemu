@@ -3,9 +3,7 @@
 /* Alternative program counter for nestest*/
 //#define ALT_PC 0xc000 
 
-Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true)
-{
-	
+Cpu::Cpu() : clock_cycles_(0), irq_(true), nmi_(true) {
 
 	registers_ = new Registers;
 
@@ -185,7 +183,7 @@ uint64_t Cpu::Step()
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	DebugLogger::LogOp(registers_, mmu_, clock_cycles_);
+	DebugLogger::FileLogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);
@@ -207,8 +205,8 @@ uint64_t Cpu::Step()
 	return op_cycles;
 }
 
-void Cpu::Reset()
-{
+void Cpu::Reset() {
+
 	// Reset Interrupt procedure. Called on Power Up or reset button pressed 
 
 	/*RESET is how code even begin executing on the 6502 when powered on or reset. 
