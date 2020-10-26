@@ -32,6 +32,7 @@ bool Cartridge::LoadRom(const std::string & path)
 
 		if (!ParseHeader(rom)) {
 			Logger::Log("ROM loaded successfully: %s", path.c_str());
+			rom.close();
 			return false;
 		}
 
@@ -60,10 +61,10 @@ bool Cartridge::ParseHeader(std::istream & file)
 	ines_flags.chr_rom_num_ = header_[5];
 	ines_flags.chr_ram_num_ = header_[8];
 	ines_flags.mirroring_ = CheckBit((uint8_t)header_[6], 0);
+	ines_flags.mirroring_4_ = CheckBit((uint8_t)header_[6], 3);
 	ines_flags.vs_system_ = CheckBit((uint8_t)header_[7], 0);
 	ines_flags.bb_prg_ram_ = CheckBit((uint8_t)header_[6], 1);
 	ines_flags.trainer_ = CheckBit((uint8_t)header_[6], 2);
-	ines_flags.mirroring_4_ = CheckBit((uint8_t)header_[6], 3);
 	ines_flags.ntsc_ = CheckBit((uint8_t)header_[9], 0);
 
 	// Lower nibble

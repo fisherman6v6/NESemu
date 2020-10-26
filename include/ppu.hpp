@@ -45,19 +45,22 @@ constexpr auto PALETTE_RAM_END = 0x3f1f;
 constexpr auto OAM_SIZE = 256;
 constexpr auto PALETTE_SIZE = 28;
 constexpr auto VRAM_SIZE = 2048;
-constexpr auto PATTERN_TABLE_SIZE = 0x1000;
+constexpr auto kPatterTableSize = 0x1000;
 
 /* tiles per patter table*/
-constexpr auto TILES_PER_PT = 256;
+constexpr auto kTilesPerPatternTable = 128;
 /* lines per tile */
-constexpr auto LINES_PER_TILE = 16;
+constexpr auto kLinesPerTile = 16;
 /* two planes in each tile*/
-constexpr auto LINES_PER_PLANE = LINES_PER_TILE / 2; 
+constexpr auto kLinesPerPlane = kLinesPerTile / 2; 
 
 /* Pixel lines per pixel pattern*/
-constexpr auto PIXEL_LINES_PER_PP = 8;
+constexpr auto kPixelLinesPerPixelPattern = 8;
 
-constexpr auto PIXEL_PER_LINE = 8;
+constexpr auto kPixelPerLine = 8;
+
+#define WIN_L 128
+#define WIN_H 256
 
 class Cpu;
 class Cartridge;
@@ -78,6 +81,8 @@ public:
 private:
 
     /* Temporary: SFML rendering stuff*/
+
+    uint8_t display_[WIN_H * WIN_L * 4];
 
     sf::RenderWindow window_;
     sf::Texture frame_texture_;
@@ -102,7 +107,6 @@ private:
     uint8_t palette_ram[PALETTE_SIZE];
     uint8_t vram_[VRAM_SIZE];
     
-    uint8_t display_[TILES_PER_PT][PIXEL_PER_LINE][PIXEL_LINES_PER_PP] = {0};
 
     /*PPU REGISTERS*/
 
