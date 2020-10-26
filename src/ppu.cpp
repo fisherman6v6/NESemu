@@ -51,12 +51,12 @@ void Ppu::Init(Cpu* cpu, Cartridge* cartridge) {
 void Ppu::Step(unsigned cycles) {
     ppu_cycles_ += cycles * 3;
     #if GRAPHICS
-    RenderPatternTable();
+    RenderPatternTables();
     Render();
     #endif
 }
 
-void Ppu::RenderPatternTable() {
+void Ppu::RenderPatternTables() {
     /*
 	$0000-$0FFF Pattern table 0 - left
 	$1000-$1FFF Pattern table 1 - right

@@ -92,9 +92,9 @@ private:
     void HandleEvents();
     void CreateSprite();
 
-    /**********************************/
+    void RenderPatternTables();
 
-    void RenderPatternTable();
+    /**********************************/
 
     Cpu* cpu_;
     Cartridge* cartridge_;
