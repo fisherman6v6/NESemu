@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <unistd.h>
 #include "emulator.hpp"
 #include <string>
 #include <cstring>
@@ -12,48 +13,48 @@ constexpr bool NODEBUG = false;
 
 #define DEFAULT_LOGFILE "my_log.txt"
 
-void PrintCommands() {
-	std::cout << "Commands:" << std::endl;
+void PrintCommands(char** argv) {
+	std::cerr << "Usage: %s [-r|-d] [-l logfile] rompath " << argv[0] << std::endl;
 }
 
 bool ParseArgs(int argc, char **argv, bool& mode, std::string& path, std::string& logfile_path) {
 	
 	if (argc < 2) {
-		PrintCommands();
+		PrintCommands(argv);
 		return true;
 	}
 
-	int cur = 0;
-
-	std::vector<std::string> args;
-	args.assign(argv + 1, argc + argv);
-
-	while (cur < argc - 1) {
-
-		if (args[cur] == "-help" || args[cur] == "-h" || argc < 2) {
-			PrintCommands();
+	int opt;
+	while ((opt = getopt(argc, argv, "rdl:")) != -1) {
+		switch (opt)
+		{
+		case 'r':
+			/* Run emulator*/
+			mode = NODEBUG;
+			break;
+		case 'd':
+			/* Debug emualtor*/
+			mode = DEBUG;
+			break;
+		case 'l':
+			/* Optional logfile*/
+			logfile_path = std::string(optarg);
+			break;	
+		default:
+			PrintCommands(argv);
 			return true;
 		}
-
-		if (args[cur] == "-d" || args[cur] == "-debug") {
-			mode = DEBUG;
-			cur++;
-			continue;
-		}
-
-		path = args[cur++];
-		// other args can be added
-		if (cur == argc - 1) {
-			logfile_path = DEFAULT_LOGFILE;
-			return false;
-		} 
-
-		logfile_path = args[cur++];
-		return false;
-		
 	}
 
-	return true;
+	if (optind >= argc) {
+        std::cerr << "Expected argument after options" << std::endl;
+		PrintCommands(argv);
+        return true;
+	}
+
+	path = std::string(argv[optind]);
+
+	return false;
 }
 
 int main(int argc, char **argv)
@@ -67,5 +68,11 @@ int main(int argc, char **argv)
 		Emulator emulator(mode, path, logfile_path);
 		emulator.Run();
 	}
+
+	else {
+		exit(EXIT_FAILURE);
+	}
+
+	return 0;
 
 }

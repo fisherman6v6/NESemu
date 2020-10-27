@@ -1,8 +1,8 @@
 #include "debug_logger.hpp"
 
 bool DebugLogger::is_enabled_ = true;
-std::ofstream DebugLogger::log_file_;
-std::string DebugLogger::log_file_path_ = LOGFILE;
+std::ofstream DebugLogger::logfile_;
+std::string DebugLogger::logfile_path_ = LOGFILE;
 
 DebugLogger::~DebugLogger() = default;
 
@@ -38,20 +38,20 @@ void DebugLogger::FileLogOp(const Registers* registers, const Mmu* mmu, uint64_t
 	static bool first_time = true;
 
 	if (first_time) {
-		log_file_.open(LOGFILE, std::ofstream::out);
+		logfile_.open(LOGFILE, std::ofstream::out);
 		first_time = false;
 	}
 
 	else {
-		log_file_.open(LOGFILE, std::ofstream::app);
+		logfile_.open(LOGFILE, std::ofstream::app);
 	}
 
-	if (!log_file_) {
+	if (!logfile_) {
 		std::cout << "Log File ERROR" << std::endl;
 		return;
 	}
 
-	log_file_ << std::setfill('0') << std::setw(4) << std::uppercase << std::hex << (unsigned)registers->getPC() << "    " 
+	logfile_ << std::setfill('0') << std::setw(4) << std::uppercase << std::hex << (unsigned)registers->getPC() << "    " 
 		<< std::setfill('0') << std::setw(2) << (unsigned)mmu->ReadByte(registers->getPC()) << "    "
 		" A:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getA() << 
 		" X:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getX() << 
@@ -60,7 +60,7 @@ void DebugLogger::FileLogOp(const Registers* registers, const Mmu* mmu, uint64_t
 		" S:" << std::setfill('0') << std::setw(2) << std::hex << (unsigned)registers->getS() <<
 		" CYC:" << std::dec << (unsigned long int)cyc << std::endl;
 
-	log_file_.close();
+	logfile_.close();
 }
 
 void DebugLogger::LogMemory(const Mmu* memory, size_t start, size_t size, const char* tag)

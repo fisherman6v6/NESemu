@@ -35,7 +35,18 @@ CMakeFiles/NESemu.dir/src/debug_logger.cpp.o: ../include/ppu.hpp
 CMakeFiles/NESemu.dir/src/debug_logger.cpp.o: ../include/registers.hpp
 CMakeFiles/NESemu.dir/src/debug_logger.cpp.o: ../src/debug_logger.cpp
 
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/cartridge.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/cpu.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/debug_logger.hpp
 CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/debugger.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/i_mapper.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/i_memory_unit.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/logger.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/mapper_000.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/mmu.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/pch.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/ppu.hpp
+CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../include/registers.hpp
 CMakeFiles/NESemu.dir/src/debugger.cpp.o: ../src/debugger.cpp
 
 CMakeFiles/NESemu.dir/src/emulator.cpp.o: ../include/cartridge.hpp

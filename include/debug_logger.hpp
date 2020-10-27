@@ -23,11 +23,11 @@ public:
 	static void Enable();
 	static void Disable();
 	static void DebugHelp();
-	static void SetLogFile(const std::string& log_file_path) { log_file_path_ = log_file_path;};
+	static void SetLogFile(const std::string& logfile_path) { logfile_path_ = logfile_path; };
 
 private:
     ~DebugLogger();
 	static bool is_enabled_;
-	static std::ofstream log_file_;
-	static std::string log_file_path_;
+	static std::ofstream logfile_;
+	static std::string logfile_path_;
 };

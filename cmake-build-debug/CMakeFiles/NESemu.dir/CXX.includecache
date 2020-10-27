@@ -58,19 +58,11 @@ mmu.hpp
 registers.hpp
 ../include/registers.hpp
 
-../include/emulator.hpp
-string
--
+../include/debugger.hpp
 list
 -
-sstream
+string
 -
-algorithm
--
-utility
--
-pch.hpp
-../include/pch.hpp
 cpu.hpp
 ../include/cpu.hpp
 mmu.hpp
@@ -152,15 +144,7 @@ SFML/Graphics.hpp
 pch.hpp
 ../include/pch.hpp
 
-/home/alessandro/Playground/NESemu/src/main.cpp
-iostream
--
-emulator.hpp
-/home/alessandro/Playground/NESemu/src/emulator.hpp
-string
--
-cstring
--
-vector
--
+/home/alessandro/Playground/NESemu/src/debugger.cpp
+debugger.hpp
+/home/alessandro/Playground/NESemu/src/debugger.hpp
 

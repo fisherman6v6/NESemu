@@ -36,7 +36,18 @@ CMakeFiles/NESemu.dir/src/debug_logger.cpp.o
  ../include/registers.hpp
  /home/alessandro/Playground/NESemu/src/debug_logger.cpp
 CMakeFiles/NESemu.dir/src/debugger.cpp.o
+ ../include/cartridge.hpp
+ ../include/cpu.hpp
+ ../include/debug_logger.hpp
  ../include/debugger.hpp
+ ../include/i_mapper.hpp
+ ../include/i_memory_unit.hpp
+ ../include/logger.hpp
+ ../include/mapper_000.hpp
+ ../include/mmu.hpp
+ ../include/pch.hpp
+ ../include/ppu.hpp
+ ../include/registers.hpp
  /home/alessandro/Playground/NESemu/src/debugger.cpp
 CMakeFiles/NESemu.dir/src/emulator.cpp.o
  ../include/cartridge.hpp

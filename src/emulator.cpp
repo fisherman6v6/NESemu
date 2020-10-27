@@ -157,5 +157,8 @@ void Emulator::Debug()
 
 void Emulator::NoDebug()
 {
-	Logger::Disable();
+	Logger::Enable();
+	Logger::Log("Starting emulator in Run Mode");
+	Logger::Log("Not Yet implemented...exit");
+	return;
 }
