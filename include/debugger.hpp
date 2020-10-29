@@ -12,29 +12,29 @@ class Debugger {
 
 public:
 
-    static void Debug(Cpu* cpu, Ppu* ppu, Mmu* mmu, Cartridge* cart);
+    Debugger(Cpu* cpu, Ppu* ppu, Mmu* mmu, Cartridge* cart, std::string logfile_path = "");
+
+    ~Debugger();
+
+    void Debug();
     
 private:
 
-    Debugger();
-    ~Debugger();
-
-    static void SetBreakpoint();
-    static void Print();
-    static void Continue();
-    static void Help();
-    static void Restart();
-    static void DeleteBreakpoint();
-    static void Quit();
-
-    static bool is_running_;
-    static std::list<std::pair<unsigned, unsigned>> breakpoint_list_;
-	static unsigned b_num_;
-	static std::string line_;
-    static std::istringstream stream_;
-    static Cpu* cpu_;
-    static Registers* registers_;
-	static Ppu* ppu_;
-	static Mmu* mmu_;
-	static Cartridge* cartridge_;
+    void SetBreakpoint();
+    void Print();
+    void Continue();
+    void Help();
+    void Restart();
+    void DeleteBreakpoint();
+    void Quit();    
+    bool is_running_;
+    bool log_on_file_;
+    std::list<std::pair<unsigned, unsigned>> breakpoint_list_;
+	unsigned b_num_;
+    std::istringstream stream_;
+    Cpu* cpu_;
+    Registers* registers_;
+	Ppu* ppu_;
+	Mmu* mmu_;
+	Cartridge* cartridge_;
 };

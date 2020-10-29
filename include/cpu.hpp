@@ -23,7 +23,7 @@ public:
 
 	void Init(Mmu* mmu, Ppu* ppu);
 	
-	uint64_t Step();
+	unsigned Step();
 	
 	void Reset();
 
@@ -33,7 +33,9 @@ public:
 	void ClearIRQn() { irq_ = true; };
 	void ClearNMIn() { nmi_ = true; };
 
-	const Registers* GetRegisters() const { return registers_; }
+	const Registers* GetRegisters() const { return registers_; };
+	uint64_t GetClockCycles() const { return clock_cycles_; };
+	
 
 private:
 

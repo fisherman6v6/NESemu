@@ -175,7 +175,7 @@ Cpu::~Cpu() {
 	delete registers_;
 }
 
-uint64_t Cpu::Step()
+unsigned Cpu::Step()
 {
 
 	unsigned op_cycles = 0;
@@ -183,7 +183,7 @@ uint64_t Cpu::Step()
 	uint16_t pc = registers_->pc_;
 	uint8_t opcode = mmu_->ReadByte(pc);
 
-	DebugLogger::FileLogOp(registers_, mmu_, clock_cycles_);
+	//DebugLogger::FileLogOp(registers_, mmu_, clock_cycles_);
 
 	if (instructions_[opcode] != nullptr) {
 		op_cycles = (this->*instructions_[opcode])(opcode);

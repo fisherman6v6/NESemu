@@ -5,13 +5,13 @@ Emulator::Emulator()
 
 }
 
-Emulator::Emulator(bool mode, const std::string& path, const std::string& logfile_path)
-{
-	DebugLogger::SetLogFile(logfile_path);
-	cpu_ = new Cpu;
-	ppu_ = new Ppu;
-	mmu_ = new Mmu;
-	cartridge_ = new Cartridge(path);
+Emulator::Emulator(bool mode, const std::string& path, const std::string& logfile_path) {
+
+	this->cpu_ = new Cpu;
+	this->ppu_ = new Ppu;
+	this->mmu_ = new Mmu;
+	this->cartridge_ = new Cartridge(path);
+	this->logfile_path_ = logfile_path;
 
 	cpu_->Init(mmu_, ppu_);
 	ppu_->Init(cpu_, cartridge_);
@@ -24,6 +24,7 @@ Emulator::Emulator(bool mode, const std::string& path, const std::string& logfil
 }
 
 Emulator::~Emulator() {
+
 	Logger::Log("Emu destructor called");
 	delete cartridge_;
 	delete mmu_;
@@ -36,8 +37,8 @@ void Emulator::Step()
 	cpu_->Step();
 }
 
-void Emulator::Run()
-{
+void Emulator::Run() {
+
 	is_running_ = true;
 
 	if (RunCallback != nullptr) {
@@ -50,12 +51,16 @@ void Emulator::Reset() {
 	ppu_->Reset();
 }
 
-void Emulator::Debug()
-{
+void Emulator::Debug() {
+
 	Logger::Enable();
 	Logger::Log("Starting emulator in Debug Mode");
 
-	std::list<std::pair<unsigned, unsigned>> breakpoint_list;
+	std::unique_ptr<Debugger> debugger = std::make_unique<Debugger>(cpu_, ppu_, mmu_, cartridge_, logfile_path_);
+	debugger->Debug();
+
+
+/* 	std::list<std::pair<unsigned, unsigned>> breakpoint_list;
 	unsigned b_num = 0;
 	std::string line;
 
@@ -152,7 +157,7 @@ void Emulator::Debug()
 			}
 		}
 	}
-	//Logger::Disable();
+	//Logger::Disable(); */
 }
 
 void Emulator::NoDebug()

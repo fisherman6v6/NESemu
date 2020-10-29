@@ -62,7 +62,8 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "iomanip": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "valarray": "cpp"
     },
     "terminal.integrated.shell.windows": "cmd.exe"
 }

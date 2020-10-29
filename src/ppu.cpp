@@ -1,6 +1,6 @@
 #include "ppu.hpp"
 
-#define GRAPHICS 1
+#define GRAPHICS 0
 #define TEST 0
 
 const uint8_t colors_[]
