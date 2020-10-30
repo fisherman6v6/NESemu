@@ -90,6 +90,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/alessandro/Playground/NESemu/include/args_queue.h">
+			<Option target="NESemu"/>
+		</Unit>
 		<Unit filename="/home/alessandro/Playground/NESemu/include/cartridge.hpp">
 			<Option target="NESemu"/>
 		</Unit>
@@ -130,6 +133,9 @@
 			<Option target="NESemu"/>
 		</Unit>
 		<Unit filename="/home/alessandro/Playground/NESemu/include/registers.hpp">
+			<Option target="NESemu"/>
+		</Unit>
+		<Unit filename="/home/alessandro/Playground/NESemu/src/args_queue.cpp">
 			<Option target="NESemu"/>
 		</Unit>
 		<Unit filename="/home/alessandro/Playground/NESemu/src/cartridge.cpp">

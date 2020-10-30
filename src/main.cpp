@@ -5,8 +5,6 @@
 #include <unistd.h>
 #include "emulator.hpp"
 #include <string>
-#include <cstring>
-#include <vector>
 
 constexpr bool DEBUG = true;
 constexpr bool NODEBUG = false;

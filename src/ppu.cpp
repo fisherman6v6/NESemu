@@ -81,7 +81,6 @@ uint8_t Ppu::ReadByte(uint16_t address) const {
         Logger::LogError("PPU: Can't read from this address: 0x%04x", address);;
         return 0;
     }
-    return 0;
 }
 
 bool Ppu::WriteByte(uint16_t address, uint8_t value) {
@@ -138,7 +137,6 @@ bool Ppu::WriteByte(uint16_t address, uint8_t value) {
         Logger::LogError("PPU: Can't write to this address: 0x%04x", address);
         return true;
     }
-    return 0;
 }
 
 /* Temp: rendering functions*/

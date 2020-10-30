@@ -2,7 +2,6 @@
 
 bool DebugLogger::is_enabled_ = true;
 std::ofstream DebugLogger::logfile_;
-std::string DebugLogger::logfile_path_ = LOGFILE;
 
 DebugLogger::~DebugLogger() = default;
 
@@ -38,16 +37,16 @@ void DebugLogger::FileLogOp(const Registers* registers, const Mmu* mmu, uint64_t
 	static bool first_time = true;
 
 	if (first_time) {
-		logfile_.open(LOGFILE, std::ofstream::out);
+		logfile_.open(logfile_path_, std::ofstream::out);
 		first_time = false;
 	}
 
 	else {
-		logfile_.open(LOGFILE, std::ofstream::app);
+		logfile_.open(logfile_path_, std::ofstream::app);
 	}
 
 	if (!logfile_) {
-		std::cout << "Log File ERROR" << std::endl;
+		//std::cout << "Log File ERROR" << std::endl;
 		return;
 	}
 

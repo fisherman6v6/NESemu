@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/alessandro/Playground/NESemu/src/args_queue.cpp" "/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/NESemu.dir/src/args_queue.cpp.o"
   "/home/alessandro/Playground/NESemu/src/cartridge.cpp" "/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/NESemu.dir/src/cartridge.cpp.o"
   "/home/alessandro/Playground/NESemu/src/cpu.cpp" "/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/NESemu.dir/src/cpu.cpp.o"
   "/home/alessandro/Playground/NESemu/src/debug_logger.cpp" "/home/alessandro/Playground/NESemu/cmake-build-debug/CMakeFiles/NESemu.dir/src/debug_logger.cpp.o"

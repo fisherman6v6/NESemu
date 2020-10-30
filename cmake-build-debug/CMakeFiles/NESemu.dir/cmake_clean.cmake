@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/NESemu.dir/src/args_queue.cpp.o"
   "CMakeFiles/NESemu.dir/src/cartridge.cpp.o"
   "CMakeFiles/NESemu.dir/src/cpu.cpp.o"
   "CMakeFiles/NESemu.dir/src/debug_logger.cpp.o"

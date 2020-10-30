@@ -14,7 +14,7 @@ void Logger::Disable() {
 		log_file.close();
 	}*/
 	
-	is_enabled_ = 0;
+	is_enabled_ = false;
 }
 
 void Logger::Log(const char* message, ...) {

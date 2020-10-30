@@ -48,6 +48,6 @@ add_executable(NESemu
         src/mapper_000.cpp
         src/mmu.cpp
         src/ppu.cpp
-        src/registers.cpp)
+        src/registers.cpp src/args_queue.cpp include/args_queue.h)
 
 target_link_libraries (NESemu sfml-graphics sfml-window sfml-system)
