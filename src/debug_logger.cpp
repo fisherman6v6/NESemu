@@ -2,6 +2,7 @@
 
 bool DebugLogger::is_enabled_ = true;
 std::ofstream DebugLogger::logfile_;
+std::string DebugLogger::logfile_path_ = "";
 
 DebugLogger::~DebugLogger() = default;
 
@@ -93,11 +94,13 @@ void DebugLogger::DebugHelp()
 {
 	std::cout << "Debug commands:" << "\n";
 	std::cout << "\
-				s: step\n \
+				s : step\n \
 				b <program counter value> : set breakpoint at <program counter value>\n \
 				p <regs> : print registers\n \
 				p <mem> <start address> <displacement> : print memory block\n \
 				c : continue until breakpoint\n \
+                r : reset execution\
+                h : print help\
 				q : quit";
 	std::cout << "\n- - - - - - - - - - - - - - - - - - - - - - - - - -\n\n" << std::endl;
 }
